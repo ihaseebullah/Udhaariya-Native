@@ -3,7 +3,7 @@ import React from 'react';
 import {useTheme} from '../../Theme/Context/Theme';
 import Text from '../../components/shared/Text';
 import Next from '../../components/shared/Next';
-import OnboardingOneSvg from '../../assets/svg/OnboardingOne.svg';
+import OnboardingOneSvg from '../../assets/svg/team.svg';
 import {useNavigation} from '@react-navigation/native';
 import {SplashScreenNavigationProp} from '../../../navigationTypes';
 const OnboardingOne: React.FC = () => {

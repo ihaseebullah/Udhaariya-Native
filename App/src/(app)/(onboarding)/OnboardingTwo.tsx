@@ -3,7 +3,7 @@ import React, {useEffect} from 'react';
 import {useTheme} from '../../Theme/Context/Theme';
 import Text from '../../components/shared/Text';
 import Next from '../../components/shared/Next';
-import OnboardingOneSvg from '../../assets/svg/OnboardingOne.svg';
+import OnboardingTwoSvg from '../../assets/svg/Ai.svg';
 import {useNavigation} from '@react-navigation/native';
 import {SplashScreenNavigationProp} from '../../../navigationTypes';
 const OnboardingTwo: React.FC = () => {
@@ -12,7 +12,7 @@ const OnboardingTwo: React.FC = () => {
   return (
     <View style={[styles.container, {backgroundColor: Colors.Primary}]}>
       <View style={styles.svgContainer}>
-        <OnboardingOneSvg height={350} width={300} />
+        <OnboardingTwoSvg height={350} width={300} />
       </View>
       <View style={styles.content}>
         <Text style={[styles.title, {color: Colors.TextPrimary}]}>

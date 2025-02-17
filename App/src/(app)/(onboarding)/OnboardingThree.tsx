@@ -3,7 +3,7 @@ import React from 'react';
 import {useTheme} from '../../Theme/Context/Theme';
 import Text from '../../components/shared/Text';
 import Next from '../../components/shared/Next';
-import OnboardingOneSvg from '../../assets/svg/OnboardingOne.svg';
+import OnboardingThreeSvg from '../../assets/svg/chasing.svg';
 import {useNavigation} from '@react-navigation/native';
 import {SplashScreenNavigationProp} from '../../../navigationTypes';
 const OnboardingThree: React.FC = () => {
@@ -13,11 +13,11 @@ const OnboardingThree: React.FC = () => {
   return (
     <View style={[styles.container, {backgroundColor: Colors.Primary}]}>
       <View style={styles.svgContainer}>
-        <OnboardingOneSvg height={350} width={300} />
+        <OnboardingThreeSvg height={350} width={300} />
       </View>
       <View style={styles.content}>
         <Text style={[styles.title, {color: Colors.TextPrimary}]}>
-          Let Udhaariya do the chasing!
+          Let Udhaariya do the job!
         </Text>
         <Text
           style={[
