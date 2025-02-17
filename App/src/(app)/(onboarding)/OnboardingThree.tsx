@@ -17,12 +17,17 @@ const OnboardingThree: React.FC = () => {
       </View>
       <View style={styles.content}>
         <Text style={[styles.title, {color: Colors.TextPrimary}]}>
-          Never Forget Who Owes What!
+          Let Udhaariya do the chasing!
         </Text>
-        <Text style={[styles.description, {color: Colors.TextSecondary}]}>
-          ✅ No more "bhool gaya" excuses
+        <Text
+          style={[
+            styles.description,
+            {color: Colors.TextSecondary, fontSize: 14},
+          ]}>
+          No more awkward reminders | Smart tracking & auto-reminders. | Voice
+          notes & fun chats to settle dues!
         </Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.replace('OnboardingOne')}>
           <Next />
         </TouchableOpacity>
       </View>

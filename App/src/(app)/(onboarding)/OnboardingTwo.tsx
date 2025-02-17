@@ -16,10 +16,15 @@ const OnboardingTwo: React.FC = () => {
       </View>
       <View style={styles.content}>
         <Text style={[styles.title, {color: Colors.TextPrimary}]}>
-          Never Forget Who Owes What!
+          AI-Powered & Effortless!
         </Text>
-        <Text style={[styles.description, {color: Colors.TextSecondary}]}>
-          ✅ No more "bhool gaya" excuses
+        <Text
+          style={[
+            styles.description,
+            {color: Colors.TextSecondary, fontSize: 14},
+          ]}>
+          Smart AI Autofill | Auto-reminders | AI-powered insights for easy
+          settlements.
         </Text>
         <TouchableOpacity onPress={() => navigation.replace('OnboardingThree')}>
           <Next />

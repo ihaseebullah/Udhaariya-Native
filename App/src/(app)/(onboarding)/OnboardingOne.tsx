@@ -17,10 +17,15 @@ const OnboardingOne: React.FC = () => {
       </View>
       <View style={styles.content}>
         <Text style={[styles.title, {color: Colors.TextPrimary}]}>
-          Never Forget Who Owes What!
+          Effortless Group Management!
         </Text>
-        <Text style={[styles.description, {color: Colors.TextSecondary}]}>
-          ✅ No more "bhool gaya" excuses
+        <Text
+          style={[
+            styles.description,
+            {color: Colors.TextSecondary, fontSize: 14},
+          ]}>
+          Create & manage group easily | Track shared expenses in one place |
+          Stay organized without the hassle!
         </Text>
         <TouchableOpacity onPress={() => navigation.replace('OnboardingTwo')}>
           <Next />

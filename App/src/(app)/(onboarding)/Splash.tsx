@@ -14,18 +14,23 @@ const Splash: React.FC = () => {
   }, [navigation]);
 
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Udhaariya height={300} width={300} />
-      <View>
-        <Text style={{fontSize: 15, textAlign: 'left', marginBottom: -8}}>
-          Bhai,
-        </Text>
-        <Text style={{fontSize: 30}}>Udhaariya</Text>
-        <Text style={{fontSize: 15, textAlign: 'right', marginTop: -8}}>
-          dekh lega!
-        </Text>
+    <>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <Udhaariya height={300} width={300} />
+        <View>
+          <Text style={{fontSize: 15, textAlign: 'left', marginBottom: -8}}>
+            Bhai,
+          </Text>
+          <Text style={{fontSize: 30}}>Udhaariya</Text>
+          <Text style={{fontSize: 15, textAlign: 'right', marginTop: -8}}>
+            dekh lega!
+          </Text>
+        </View>
       </View>
-    </View>
+      <Text style={{textAlign: 'center', marginBottom: 5}}>
+        Powered By Promeol
+      </Text>
+    </>
   );
 };
 
