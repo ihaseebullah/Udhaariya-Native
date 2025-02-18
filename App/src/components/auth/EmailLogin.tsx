@@ -3,10 +3,12 @@ import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import {useTheme} from '../../Theme/Context/Theme';
 import Text from '../shared/Text';
 import EmailIcon from '../../assets/logo/email.svg'; // Email Icon SVG
+import {useNavigation} from '@react-navigation/native';
+import {AuthStackNavigationProp} from '../../../navigationTypes';
 
 const EmailLogin: React.FC = () => {
   const {Colors} = useTheme();
-
+  const navigation = useNavigation<AuthStackNavigationProp<'Register'>>();
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -14,7 +16,7 @@ const EmailLogin: React.FC = () => {
           styles.emailButton,
           {backgroundColor: Colors.Secondary, borderColor: Colors.CardBorder},
         ]}
-        onPress={() => {}}>
+        onPress={() => navigation.navigate('Create')}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <View style={styles.iconContainer}>
             <EmailIcon width={30} height={30} />
