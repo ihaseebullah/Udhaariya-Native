@@ -1,19 +1,19 @@
 // Icon.tsx
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, TextStyle} from 'react-native';
 import {Icons} from './Icons';
 
 interface IconProps {
   name: keyof typeof Icons;
-  width?: number;
-  height?: number;
+  size?: number;
+  style?: TextStyle | TextStyle[];
 }
 
-export const Icon: React.FC<IconProps> = ({name, width = 24, height = 24}) => {
+export const Icon: React.FC<IconProps> = ({name, size = 24, style}) => {
   const IconComponent = Icons[name];
   if (!IconComponent) {
     return <Text>Icon not found</Text>;
   }
 
-  return <IconComponent width={width} height={height} />;
+  return <IconComponent width={size} style={style} height={size} />;
 };

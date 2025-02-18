@@ -21,11 +21,19 @@ const Register: React.FC = () => {
         <View style={styles.svgContainer}>
           <Logo size={1.5} />
         </View>
-        <View>
-          <Icon name="info" />
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <Icon
+            name="info"
+            size={20}
+            style={{marginRight: 5, marginBottom: 5}}
+          />
           <Text style={{color: Colors.TextSecondary}}>
-            It is highly encouraged using facebook or google to signup to the
-            app
+            Using social signup is Recommended
           </Text>
         </View>
         <GoogleLogin onSuccess={handleSuccess} />
