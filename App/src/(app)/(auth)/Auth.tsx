@@ -10,7 +10,7 @@ type AuthStackParamList = {
   Register: undefined;
 };
 type AuthProps = {
-  route: {params?: {destination?: keyof AuthStackParamList}};
+  route?: {params?: {destination?: keyof AuthStackParamList}};
 };
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
 const Auth: React.FC<AuthProps> = ({route}) => {

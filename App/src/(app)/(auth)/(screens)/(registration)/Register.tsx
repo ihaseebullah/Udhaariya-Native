@@ -11,18 +11,25 @@ const {width} = Dimensions.get('window');
 
 const Register = () => {
   const {Colors} = useTheme(); // Access theme-based Colors
-
+  const handleSuccess = function (userData: Object, provider: String) {
+    console.log(userData);
+  };
   return (
     <>
       <View style={[styles.container, {backgroundColor: Colors.Primary}]}>
         <View style={styles.svgContainer}>
           <Logo size={1.5} />
         </View>
-        <GoogleLogin />
-        <FacebookLogin />
+        <GoogleLogin onSuccess={handleSuccess} />
+        <FacebookLogin onSuccess={handleSuccess} />
         <EmailLogin />
       </View>
-      <Text style={{textAlign: 'center', marginBottom: 5}}>
+      <Text
+        style={{
+          textAlign: 'center',
+          marginBottom: 5,
+          backgroundColor: Colors.Primary,
+        }}>
         Powered By Promeol
       </Text>
     </>

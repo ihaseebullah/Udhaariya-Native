@@ -5,8 +5,10 @@ import {LoginManager, AccessToken} from 'react-native-fbsdk-next';
 import {useTheme} from '../../Theme/Context/Theme';
 import Text from '../shared/Text';
 import Facebook from '../../assets/logo/facebook.svg'; // Import Facebook logo SVG
-
-const FacebookLogin = () => {
+interface FacebookLoginProps {
+  onSuccess: (userData: Object, provider: String) => void;
+}
+const FacebookLogin: React.FC<FacebookLoginProps> = ({onSuccess}) => {
   const {Colors} = useTheme(); // Get theme colors
 
   async function onFacebookButtonPress() {
@@ -16,11 +18,9 @@ const FacebookLogin = () => {
         'public_profile',
         'email',
       ]);
-
       if (result.isCancelled) {
         throw 'User cancelled the login process';
       }
-
       // Get the user's AccessToken
       const data = await AccessToken.getCurrentAccessToken();
 
@@ -28,20 +28,9 @@ const FacebookLogin = () => {
         throw 'Something went wrong obtaining access token';
       }
 
-      // Create a Firebase credential
-      const facebookCredential = auth.FacebookAuthProvider.credential(
-        data.accessToken,
-      );
-
-      // Sign-in the user with the credential
-      const userCredential = await auth().signInWithCredential(
-        facebookCredential,
-      );
-      console.log('Firebase User:', userCredential.user);
-
       // Fetch user details from Facebook Graph API
       const response = await fetch(
-        `https://graph.facebook.com/me?fields=id,name,email,picture.type(large)&access_token=${data.accessToken}`,
+        `https://graph.facebook.com/me?fields=id,name,email,picture{url},first_name,last_name&access_token=${data.accessToken}`,
       );
       const userData = await response.json();
       console.log('Facebook User Data:', userData);
@@ -55,11 +44,16 @@ const FacebookLogin = () => {
       <TouchableOpacity
         style={[
           styles.facebookButton,
-          {backgroundColor: Colors.Secondary, borderColor: Colors.CardBorder},
+          {
+            backgroundColor: Colors.Secondary,
+            borderColor: Colors.CardBorder,
+          },
         ]}
         onPress={onFacebookButtonPress}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Facebook height={40} />
+          <View style={{marginLeft: 7}}>
+            <Facebook height={40} />
+          </View>
           <Text
             style={[styles.buttonText, {color: Colors.TextPrimary, flex: 1}]}>
             Continue with Facebook
@@ -81,11 +75,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     paddingVertical: 5,
-    borderRadius: 8,
-    borderWidth: 1,
+    borderRadius: 20,
+    borderWidth: 2,
+    marginBottom: 5,
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
   },
 });

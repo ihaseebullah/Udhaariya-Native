@@ -8,10 +8,11 @@ GoogleSignin.configure({
   webClientId:
     '356773742763-m13demhj7brhar0cpbgstc55f3edqblj.apps.googleusercontent.com',
 });
-
-const GoogleLogin = () => {
-  const {Colors} = useTheme(); // Get theme colors
-
+interface GoogleLoginProps {
+  onSuccess: (userData: Object, provider: String) => void;
+}
+const GoogleLogin: React.FC<GoogleLoginProps> = ({onSuccess}) => {
+  const {Colors} = useTheme();
   useEffect(() => {
     GoogleSignin.configure({
       webClientId:
@@ -22,8 +23,8 @@ const GoogleLogin = () => {
   const signInWithGoogle = async () => {
     try {
       await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      console.log('User Info:', userInfo);
+      const userData = await GoogleSignin.signIn();
+      onSuccess(userData, 'google');
     } catch (error) {
       console.log('Error with Google Sign-In:', error);
     }
@@ -38,7 +39,9 @@ const GoogleLogin = () => {
         ]}
         onPress={signInWithGoogle}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Google height={40} />
+          <View style={{marginLeft: 7}}>
+            <Google height={40} />
+          </View>
           <Text
             style={[styles.buttonText, {color: Colors.TextPrimary, flex: 1}]}>
             Continue with Google
@@ -60,14 +63,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     paddingVertical: 5,
-    borderRadius: 8,
-    borderWidth: 1,
+    borderRadius: 20,
+    borderWidth: 2,
+    marginVertical: 5,
   },
   icon: {
     marginRight: 10,
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
   },
 });

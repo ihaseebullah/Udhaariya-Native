@@ -4,7 +4,7 @@ import {useTheme} from '../../Theme/Context/Theme';
 import Text from '../shared/Text';
 import EmailIcon from '../../assets/logo/email.svg'; // Email Icon SVG
 
-const EmailLogin = () => {
+const EmailLogin: React.FC = () => {
   const {Colors} = useTheme();
 
   return (
@@ -17,7 +17,7 @@ const EmailLogin = () => {
         onPress={() => {}}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <View style={styles.iconContainer}>
-            <EmailIcon width={32} height={32} />
+            <EmailIcon width={30} height={30} />
           </View>
           <Text
             style={[styles.buttonText, {color: Colors.TextPrimary, flex: 1}]}>
@@ -40,15 +40,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     paddingVertical: 10,
-    borderRadius: 8,
-    borderWidth: 1,
+    borderRadius: 20,
+    borderWidth: 2,
   },
   iconContainer: {
     marginRight: 10, // Space between icon and text
-    marginLeft: 10,
+    marginLeft: 15,
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
   },
 });
