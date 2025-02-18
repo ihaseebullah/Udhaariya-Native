@@ -6,7 +6,7 @@ import Next from '../../components/shared/Next';
 import OnboardingThreeSvg from '../../assets/svg/chasing.svg';
 import {useNavigation} from '@react-navigation/native';
 import {SplashScreenNavigationProp} from '../../../navigationTypes';
-import {ButtonOutline} from '../../components/shared/Buttons';
+import {Button, ButtonOutline} from '../../components/shared/Buttons';
 const OnboardingThree: React.FC = () => {
   const {Colors} = useTheme();
   const navigation = useNavigation<SplashScreenNavigationProp>();
@@ -28,14 +28,20 @@ const OnboardingThree: React.FC = () => {
           No more awkward reminders | Smart tracking & auto-reminders. | Voice
           notes & fun chats to settle dues!
         </Text>
-        <TouchableOpacity onPress={() => navigation.replace('OnboardingOne')}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <ButtonOutline
             onPress={() => {
               navigation.navigate('Auth', {destination: 'Login'});
             }}
             title={'Login'}
           />
-        </TouchableOpacity>
+          <Button
+            onPress={() => {
+              navigation.navigate('Auth', {destination: 'Register'});
+            }}
+            title={'Register'}
+          />
+        </View>
       </View>
     </View>
   );
