@@ -8,7 +8,14 @@ type RootStackParamList = {
   Auth: {destination: String};
 };
 
-export type SplashScreenNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  'Splash'
->;
+export type RootStackNavigationProp<T extends keyof RootStackParamList> =
+  NativeStackNavigationProp<RootStackParamList, T>;
+
+export type AuthStackParamList = {
+  Login: undefined;
+  Register: undefined;
+  Create: undefined;
+};
+
+export type AuthStackNavigationProp<T extends keyof AuthStackParamList> =
+  NativeStackNavigationProp<AuthStackParamList, T>;

@@ -4,11 +4,10 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import Login from './(screens)/Login';
 import Register from './(screens)/(registration)/Register';
+import Create from './(screens)/(registration)/(EmailSignup)/Create';
+import { AuthStackParamList } from '../../../navigationTypes';
 
-type AuthStackParamList = {
-  Login: undefined;
-  Register: undefined;
-};
+
 type AuthProps = {
   route?: {params?: {destination?: keyof AuthStackParamList}};
 };
@@ -26,6 +25,7 @@ const Auth: React.FC<AuthProps> = ({route}) => {
       initialRouteName={destination}>
       <AuthStack.Screen name="Login" component={Login} />
       <AuthStack.Screen name="Register" component={Register} />
+      <AuthStack.Screen name="Create" component={Create} />
     </AuthStack.Navigator>
   );
 };

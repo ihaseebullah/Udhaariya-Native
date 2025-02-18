@@ -3,9 +3,9 @@ import React, {useEffect} from 'react';
 import Udhaariya from '../../assets/logo/udhaariya.svg';
 import Text from '../../components/shared/Text';
 import {useNavigation} from '@react-navigation/native';
-import {SplashScreenNavigationProp} from '../../../navigationTypes';
+import {RootStackNavigationProp} from '../../../navigationTypes';
 const Splash: React.FC = () => {
-  const navigation = useNavigation<SplashScreenNavigationProp>();
+  const navigation = useNavigation<RootStackNavigationProp<'Splash'>>();
   useEffect(() => {
     const timer = setTimeout(() => {
       navigation.replace('OnboardingOne');

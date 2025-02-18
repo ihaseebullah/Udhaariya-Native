@@ -5,10 +5,10 @@ import Text from '../../components/shared/Text';
 import Next from '../../components/shared/Next';
 import OnboardingTwoSvg from '../../assets/svg/Ai.svg';
 import {useNavigation} from '@react-navigation/native';
-import {SplashScreenNavigationProp} from '../../../navigationTypes';
+import {RootStackNavigationProp} from '../../../navigationTypes';
 const OnboardingTwo: React.FC = () => {
   const {Colors} = useTheme();
-  const navigation = useNavigation<SplashScreenNavigationProp>();
+  const navigation = useNavigation<RootStackNavigationProp<'OnboardingTwo'>>();
   return (
     <View style={[styles.container, {backgroundColor: Colors.Primary}]}>
       <View style={styles.svgContainer}>
