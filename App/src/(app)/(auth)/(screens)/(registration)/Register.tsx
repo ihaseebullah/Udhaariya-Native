@@ -6,25 +6,26 @@ import {useTheme} from '../../../../Theme/Context/Theme';
 import Text from '../../../../components/shared/Text';
 import Udhaariya from '../../../../assets/logo/udhaariya1.svg';
 import EmailLogin from '../../../../components/auth/EmailLogin';
+import Logo from '../../../../components/shared/Logo';
 const {width} = Dimensions.get('window');
 
 const Register = () => {
   const {Colors} = useTheme(); // Access theme-based Colors
 
   return (
-    <View style={[styles.container, {backgroundColor: Colors.Primary}]}>
-      <View style={styles.svgContainer}>
-        <Udhaariya height={200} />
+    <>
+      <View style={[styles.container, {backgroundColor: Colors.Primary}]}>
+        <View style={styles.svgContainer}>
+          <Logo size={1.5} />
+        </View>
+        <GoogleLogin />
+        <FacebookLogin />
+        <EmailLogin />
       </View>
-
-      <Text style={[styles.title, {color: Colors.TextPrimary}]}>
-        Create an Account
+      <Text style={{textAlign: 'center', marginBottom: 5}}>
+        Powered By Promeol
       </Text>
-
-      <GoogleLogin />
-      <FacebookLogin />
-      <EmailLogin />
-    </View>
+    </>
   );
 };
 
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
   },
   svgContainer: {
-    marginBottom: 20,
+    marginBottom: 40,
   },
   title: {
     fontSize: 22,
