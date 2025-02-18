@@ -1,6 +1,6 @@
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-type RootStackParamList = {
+export type RootStackParamList = {
   Splash: undefined;
   OnboardingOne: undefined;
   OnboardingTwo: undefined;
@@ -19,3 +19,10 @@ export type AuthStackParamList = {
 
 export type AuthStackNavigationProp<T extends keyof AuthStackParamList> =
   NativeStackNavigationProp<AuthStackParamList, T>;
+
+export type MainStackParamList = {
+  Home: undefined;
+};
+
+export type MainStackNavigationProp<T extends keyof MainStackParamList> =
+  NativeStackNavigationProp<MainStackParamList, T>;

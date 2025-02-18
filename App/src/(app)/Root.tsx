@@ -1,11 +1,11 @@
 import React from 'react';
 import {StatusBar} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Home from './(main)/(home)/Home';
 import {useTheme} from '../Theme/Context/Theme';
 import Auth from './(auth)/Auth';
 import OboardingStack from './(onboarding)/OboardingStack';
-const Stack = createNativeStackNavigator();
+import {RootStackParamList} from '../../navigationTypes';
+const Stack = createNativeStackNavigator<RootStackParamList>();
 const Root = () => {
   const {Colors, isDarkMode} = useTheme();
   return (
@@ -15,15 +15,10 @@ const Root = () => {
         backgroundColor={Colors.Primary}
         animated={true}
       />
-      <Stack.Navigator initialRouteName="Onboarding">
+      <Stack.Navigator initialRouteName="OnboardingOne">
         <Stack.Screen
-          name="Onboarding"
+          name="OnboardingOne"
           component={OboardingStack}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Home"
-          component={Home}
           options={{headerShown: false}}
         />
         <Stack.Screen

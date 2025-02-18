@@ -158,7 +158,7 @@ const Create: React.FC = () => {
             style={[
               styles.button,
               {
-                backgroundColor: Colors.TextPrimary,
+                borderColor: Colors.CardBorder,
                 borderRadius: 12,
                 borderWidth: 1,
                 paddingVertical: 10,
@@ -169,18 +169,17 @@ const Create: React.FC = () => {
             <Text
               style={[
                 styles.buttonText,
-                {color: Colors.Primary, fontSize: 16},
+                {color: Colors.TextPrimary, fontSize: 16},
               ]}>
-              {'  Back  '}
+              {'   Back   '}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
               styles.button,
               {
-                borderColor: Colors.CardBorder,
+                backgroundColor: Colors.TextPrimary,
                 borderRadius: 12,
-                borderWidth: 1,
                 paddingVertical: 8,
                 flex: 1,
               },
@@ -189,7 +188,7 @@ const Create: React.FC = () => {
             <Text
               style={[
                 styles.buttonText,
-                {color: Colors.TextPrimary, fontSize: 16},
+                {color: Colors.Primary, fontSize: 16},
               ]}>
               {currentIndex < 2 ? ' Next ' : ' Sign Up '}
             </Text>
