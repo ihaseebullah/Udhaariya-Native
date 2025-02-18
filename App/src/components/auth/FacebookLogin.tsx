@@ -15,7 +15,7 @@ const FacebookLogin: React.FC<FacebookLoginProps> = ({onSuccess}) => {
   async function onFacebookButtonPress() {
     try {
         setLoading(true);
-        setRemarks("Signing you in")
+        setRemarks("Signup you up")
       // Attempt login with permissions
       const result = await LoginManager.logInWithPermissions([
         'public_profile',
@@ -23,7 +23,7 @@ const FacebookLogin: React.FC<FacebookLoginProps> = ({onSuccess}) => {
       ]);
       if (result.isCancelled) {
         setLoading(false);
-        setRemarks('Login Cancelled');
+        setRemarks('Signup Cancelled');
         throw 'User cancelled the login process';
       }
       const data = await AccessToken.getCurrentAccessToken();
@@ -38,10 +38,10 @@ const FacebookLogin: React.FC<FacebookLoginProps> = ({onSuccess}) => {
       const userData = await response.json();
       console.log('Facebook User Data:', userData);
       setLoading(false);
-      setRemarks('Login Successful');
+      setRemarks('Signup Successful');
     } catch (error) {
       setLoading(false);
-      setRemarks('Login Failed! Try Again');
+      setRemarks('❌ Signup Failed! Try Again');
       console.log('Facebook Login Error:', error);
     }
   }
@@ -64,7 +64,7 @@ const FacebookLogin: React.FC<FacebookLoginProps> = ({onSuccess}) => {
           </View>
           <Text
             style={[styles.buttonText, {color: Colors.TextPrimary, flex: 1}]}>
-            {loading?"Signing You In":remarks?remarks:"Continue with Facebook"}
+            {loading?"Signup You Up...":remarks?remarks:"Continue with Facebook"}
           </Text>
         </View>
       </TouchableOpacity>

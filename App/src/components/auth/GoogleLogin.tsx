@@ -1,31 +1,43 @@
-import React, {useEffect} from 'react';
-import {View, TouchableOpacity, StyleSheet} from 'react-native';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import {useTheme} from '../../Theme/Context/Theme';
+import React, { useState, useEffect } from 'react';
+import { View, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { useTheme } from '../../Theme/Context/Theme';
 import Text from '../shared/Text';
 import Google from '../../assets/logo/google.svg';
+
 GoogleSignin.configure({
-  webClientId:
-    '356773742763-m13demhj7brhar0cpbgstc55f3edqblj.apps.googleusercontent.com',
+  webClientId: '356773742763-m13demhj7brhar0cpbgstc55f3edqblj.apps.googleusercontent.com',
 });
+
 interface GoogleLoginProps {
   onSuccess: (userData: Object, provider: String) => void;
 }
-const GoogleLogin: React.FC<GoogleLoginProps> = ({onSuccess}) => {
-  const {Colors} = useTheme();
+
+const GoogleLogin: React.FC<GoogleLoginProps> = ({ onSuccess }) => {
+  const { Colors } = useTheme();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [remarks, setRemarks] = useState<string | null>(null);
+
   useEffect(() => {
     GoogleSignin.configure({
-      webClientId:
-        '356773742763-m13demhj7brhar0cpbgstc55f3edqblj.apps.googleusercontent.com',
+      webClientId: '356773742763-m13demhj7brhar0cpbgstc55f3edqblj.apps.googleusercontent.com',
     });
   }, []);
 
   const signInWithGoogle = async () => {
     try {
+      setLoading(true);
+      setRemarks('Signup You Up...');
+
       await GoogleSignin.hasPlayServices();
       const userData = await GoogleSignin.signIn();
+
+      setLoading(false);
+      setRemarks('✅ Signup Successful');
       onSuccess(userData, 'google');
     } catch (error) {
+      setLoading(false);
+      setRemarks('❌ Signup Failed! Try Again');
       console.log('Error with Google Sign-In:', error);
     }
   };
@@ -33,18 +45,20 @@ const GoogleLogin: React.FC<GoogleLoginProps> = ({onSuccess}) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity
+        activeOpacity={1}
         style={[
           styles.googleButton,
-          {backgroundColor: Colors.Secondary, borderColor: Colors.CardBorder},
+          { backgroundColor: Colors.Secondary, borderColor: Colors.CardBorder },
         ]}
-        onPress={signInWithGoogle}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View style={{marginLeft: 7}}>
-            <Google height={40} />
+        onPress={signInWithGoogle}
+        disabled={loading}
+      >
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{ marginLeft: 7 }}>
+            {loading ? <ActivityIndicator style={{ padding: 5 }} size={30} /> : <Google height={40} />}
           </View>
-          <Text
-            style={[styles.buttonText, {color: Colors.TextPrimary, flex: 1}]}>
-            Continue with Google
+          <Text style={[styles.buttonText, { color: Colors.TextPrimary, flex: 1 }]}>
+            {loading ? 'Signing You In...' : remarks ? remarks : 'Continue with Google'}
           </Text>
         </View>
       </TouchableOpacity>
@@ -66,9 +80,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 2,
     marginVertical: 5,
-  },
-  icon: {
-    marginRight: 10,
   },
   buttonText: {
     fontSize: 15,
