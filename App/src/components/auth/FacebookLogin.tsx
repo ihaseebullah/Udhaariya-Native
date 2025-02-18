@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, TouchableOpacity, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {View, TouchableOpacity, StyleSheet, ActivityIndicator} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {LoginManager, AccessToken} from 'react-native-fbsdk-next';
 import {useTheme} from '../../Theme/Context/Theme';
@@ -10,7 +10,8 @@ interface FacebookLoginProps {
 }
 const FacebookLogin: React.FC<FacebookLoginProps> = ({onSuccess}) => {
   const {Colors} = useTheme(); // Get theme colors
-
+  const [loading, setLoading] = useState<boolean>(false);
+  const [remarks, setRemarks] = useState<String>();
   async function onFacebookButtonPress() {
     try {
       // Attempt login with permissions
@@ -19,11 +20,11 @@ const FacebookLogin: React.FC<FacebookLoginProps> = ({onSuccess}) => {
         'email',
       ]);
       if (result.isCancelled) {
+        setLoading(false);
+        setRemarks('Login Cancelled');
         throw 'User cancelled the login process';
       }
-      // Get the user's AccessToken
       const data = await AccessToken.getCurrentAccessToken();
-
       if (!data) {
         throw 'Something went wrong obtaining access token';
       }
@@ -34,7 +35,11 @@ const FacebookLogin: React.FC<FacebookLoginProps> = ({onSuccess}) => {
       );
       const userData = await response.json();
       console.log('Facebook User Data:', userData);
+      setLoading(false);
+      setRemarks('Login Successful');
     } catch (error) {
+      setLoading(false);
+      setRemarks('Login Failed');
       console.log('Facebook Login Error:', error);
     }
   }
@@ -42,6 +47,7 @@ const FacebookLogin: React.FC<FacebookLoginProps> = ({onSuccess}) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity
+        activeOpacity={1}
         style={[
           styles.facebookButton,
           {
@@ -52,7 +58,7 @@ const FacebookLogin: React.FC<FacebookLoginProps> = ({onSuccess}) => {
         onPress={onFacebookButtonPress}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <View style={{marginLeft: 7}}>
-            <Facebook height={40} />
+            {!loading?<ActivityIndicator style={{padding:10}}/>:<Facebook height={40} />}
           </View>
           <Text
             style={[styles.buttonText, {color: Colors.TextPrimary, flex: 1}]}>
