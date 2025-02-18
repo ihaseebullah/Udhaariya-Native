@@ -6,6 +6,7 @@ import Next from '../../components/shared/Next';
 import OnboardingThreeSvg from '../../assets/svg/chasing.svg';
 import {useNavigation} from '@react-navigation/native';
 import {SplashScreenNavigationProp} from '../../../navigationTypes';
+import {ButtonOutline} from '../../components/shared/Buttons';
 const OnboardingThree: React.FC = () => {
   const {Colors} = useTheme();
   const navigation = useNavigation<SplashScreenNavigationProp>();
@@ -28,7 +29,12 @@ const OnboardingThree: React.FC = () => {
           notes & fun chats to settle dues!
         </Text>
         <TouchableOpacity onPress={() => navigation.replace('OnboardingOne')}>
-          <Next />
+          <ButtonOutline
+            onPress={() => {
+              navigation.navigate('Auth', {destination: 'Login'});
+            }}
+            title={'Login'}
+          />
         </TouchableOpacity>
       </View>
     </View>

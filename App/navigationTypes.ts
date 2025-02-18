@@ -5,6 +5,7 @@ type RootStackParamList = {
   OnboardingOne: undefined;
   OnboardingTwo: undefined;
   OnboardingThree: undefined;
+  Auth: {destination: String};
 };
 
 export type SplashScreenNavigationProp = NativeStackNavigationProp<
