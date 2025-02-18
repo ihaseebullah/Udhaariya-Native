@@ -18,7 +18,11 @@ const Auth: React.FC<AuthProps> = ({route}) => {
 
   return (
     <AuthStack.Navigator
-      screenOptions={{headerShown: false}}
+      screenOptions={{
+        headerShown: false,
+        gestureEnabled: true,
+        animation: 'slide_from_right',
+      }}
       initialRouteName={destination}>
       <AuthStack.Screen name="Login" component={Login} />
       <AuthStack.Screen name="Register" component={Register} />
