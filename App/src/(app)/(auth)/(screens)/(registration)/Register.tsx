@@ -7,7 +7,6 @@ import Text from '../../../../components/shared/Text';
 import Udhaariya from '../../../../assets/logo/udhaariya1.svg';
 import EmailLogin from '../../../../components/auth/EmailLogin';
 import Logo from '../../../../components/shared/Logo';
-import {Info} from '../../../../constants/Icons/Icons';
 import {Icon} from '../../../../constants/Icons/Icon';
 const {width} = Dimensions.get('window');
 const Register: React.FC = () => {

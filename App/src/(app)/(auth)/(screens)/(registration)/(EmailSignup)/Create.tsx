@@ -14,6 +14,7 @@ import {
 import {useTheme} from '../../../../../Theme/Context/Theme';
 import {useNavigation} from '@react-navigation/native';
 import {AuthStackNavigationProp} from '../../../../../../navigationTypes';
+import Dash from '../../../../../components/shared/UI/Dash';
 
 const {width} = Dimensions.get('window');
 
@@ -218,44 +219,7 @@ const Create: React.FC = () => {
           {useNativeDriver: false},
         )}
       />
-
-      {/* Dots Indicator */}
-      <View style={styles.dotsContainer}>
-        {[0, 1, 2].map(index => {
-          const inputRange = [
-            (index - 1) * width,
-            index * width,
-            (index + 1) * width,
-          ];
-          const dotWidth = scrollX.interpolate({
-            inputRange,
-            outputRange: [20, 20, 20],
-            extrapolate: 'clamp',
-          });
-          const dotColor = scrollX.interpolate({
-            inputRange,
-            outputRange: [
-              Colors.TextSecondary,
-              Colors.TextPrimary,
-              Colors.TextSecondary,
-            ],
-            extrapolate: 'clamp',
-          });
-
-          return (
-            <Animated.View
-              key={index}
-              style={[
-                styles.dot,
-                {
-                  width: dotWidth,
-                  backgroundColor: dotColor,
-                },
-              ]}
-            />
-          );
-        })}
-      </View>
+      <Dash scrollX={scrollX} styles={styles} />
     </KeyboardAvoidingView>
   );
 };

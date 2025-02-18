@@ -11,6 +11,7 @@ interface UserContextProps {
     lastPasswordChangedOn?: String;
     linkedEmails: Array<String>;
   };
+  setUser?: (user: UserContextProps['user']) => void;
 }
 const UserContext = createContext<UserContextProps>({});
 
@@ -18,7 +19,11 @@ export const UserContextProvider: React.FC<{children: React.ReactNode}> = ({
   children,
 }) => {
   const [user, setUser] = useState<UserContextProps['user']>();
-  return <UserContext.Provider value={{user}}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={{user, setUser}}>
+      {children}
+    </UserContext.Provider>
+  );
 };
 
 export const useUser = () => {
