@@ -7,9 +7,10 @@ import Text from '../../../../components/shared/Text';
 import Udhaariya from '../../../../assets/logo/udhaariya1.svg';
 import EmailLogin from '../../../../components/auth/EmailLogin';
 import Logo from '../../../../components/shared/Logo';
+import {Info} from '../../../../constants/Icons/Icons';
+import {Icon} from '../../../../constants/Icons/Icon';
 const {width} = Dimensions.get('window');
-
-const Register:React.FC = () => {
+const Register: React.FC = () => {
   const {Colors} = useTheme(); // Access theme-based Colors
   const handleSuccess = function (userData: Object, provider: String) {
     console.log(userData);
@@ -19,6 +20,13 @@ const Register:React.FC = () => {
       <View style={[styles.container, {backgroundColor: Colors.Primary}]}>
         <View style={styles.svgContainer}>
           <Logo size={1.5} />
+        </View>
+        <View>
+          <Icon name="info" />
+          <Text style={{color: Colors.TextSecondary}}>
+            It is highly encouraged using facebook or google to signup to the
+            app
+          </Text>
         </View>
         <GoogleLogin onSuccess={handleSuccess} />
         <FacebookLogin onSuccess={handleSuccess} />

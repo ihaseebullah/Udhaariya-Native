@@ -24,13 +24,13 @@ const Create: React.FC = () => {
     firstName: '',
     lastName: '',
     email: '',
-    dob: '',
+    pin: '',
   });
   const [errors, setErrors] = useState({
     firstName: '',
     lastName: '',
     email: '',
-    dob: '',
+    pin: '',
   });
 
   const flatListRef = useRef<FlatList>(null);
@@ -137,18 +137,20 @@ const Create: React.FC = () => {
               style={[
                 styles.input,
                 {
-                  borderColor: errors.dob ? Colors.Error : Colors.CardBorder,
+                  borderColor: errors.pin ? Colors.Error : Colors.CardBorder,
                   color: Colors.TextPrimary,
                   fontFamily: font,
                 },
               ]}
-              placeholder="Date of Birth (YYYY-MM-DD)"
+              placeholder="Enter 4-digit PIN"
+              keyboardType="number-pad"
+              maxLength={4}
               placeholderTextColor={Colors.TextSecondary}
-              value={formData.dob}
-              onChangeText={text => handleInputChange('dob', text)}
+              value={formData.pin}
+              onChangeText={text => handleInputChange('pin', text)}
             />
-            {errors.dob ? (
-              <Text style={styles.errorText}>{errors.dob}</Text>
+            {errors.pin ? (
+              <Text style={styles.errorText}>{errors.pin}</Text>
             ) : null}
           </View>
         )}
