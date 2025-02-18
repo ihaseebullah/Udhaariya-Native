@@ -14,6 +14,8 @@ const FacebookLogin: React.FC<FacebookLoginProps> = ({onSuccess}) => {
   const [remarks, setRemarks] = useState<String>();
   async function onFacebookButtonPress() {
     try {
+        setLoading(true);
+        setRemarks("Signing you in")
       // Attempt login with permissions
       const result = await LoginManager.logInWithPermissions([
         'public_profile',
@@ -39,7 +41,7 @@ const FacebookLogin: React.FC<FacebookLoginProps> = ({onSuccess}) => {
       setRemarks('Login Successful');
     } catch (error) {
       setLoading(false);
-      setRemarks('Login Failed');
+      setRemarks('Login Failed! Try Again');
       console.log('Facebook Login Error:', error);
     }
   }
@@ -58,11 +60,11 @@ const FacebookLogin: React.FC<FacebookLoginProps> = ({onSuccess}) => {
         onPress={onFacebookButtonPress}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <View style={{marginLeft: 7}}>
-            {!loading?<ActivityIndicator style={{padding:10}}/>:<Facebook height={40} />}
+            {loading?<ActivityIndicator style={{padding:5}} size={30} />:<Facebook height={40} />}
           </View>
           <Text
             style={[styles.buttonText, {color: Colors.TextPrimary, flex: 1}]}>
-            Continue with Facebook
+            {loading?"Signing You In":remarks?remarks:"Continue with Facebook"}
           </Text>
         </View>
       </TouchableOpacity>

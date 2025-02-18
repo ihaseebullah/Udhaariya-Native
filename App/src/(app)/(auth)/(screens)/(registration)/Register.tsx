@@ -9,7 +9,7 @@ import EmailLogin from '../../../../components/auth/EmailLogin';
 import Logo from '../../../../components/shared/Logo';
 const {width} = Dimensions.get('window');
 
-const Register = () => {
+const Register:React.FC = () => {
   const {Colors} = useTheme(); // Access theme-based Colors
   const handleSuccess = function (userData: Object, provider: String) {
     console.log(userData);
