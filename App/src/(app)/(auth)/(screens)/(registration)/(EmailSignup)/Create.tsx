@@ -23,6 +23,11 @@ const Create: React.FC = () => {
   const {Colors, font} = useTheme();
   const navigation = useNavigation<AuthStackNavigationProp<'Create'>>();
   const {userSignupData} = useRegistration();
+  //OTP Verification ---------Yet to implement
+  const [OTPSent, setOTPSent] = useState<boolean>(false);
+  const [OTP, setOTP] = useState('');
+  const [OTPVerified, setOTPVerified] = useState<boolean>(false);
+
   const [formData, setFormData] = useState({
     firstName: userSignupData?.firstName,
     lastName: userSignupData?.lastName,
@@ -62,7 +67,13 @@ const Create: React.FC = () => {
       setErrors({...errors, [field]: ''});
     }
   };
-
+  const handleVerifyOTP = () => {
+    setOTPVerified(true);
+  };
+  const handleSendOTP = () => {
+    setOTPSent(true);
+  };
+  const handleSignUp = () => {};
   const renderItem = ({item}: {item: number}) => {
     return (
       <View style={[styles.slide, {backgroundColor: Colors.CardBackground}]}>
@@ -114,22 +125,44 @@ const Create: React.FC = () => {
         )}
         {item === 1 && (
           <View>
-            <View>
-            <TextInput
-                          style={[
-                            styles.input,
-                            {
-                              borderColor: errors.email ? Colors.Error : Colors.CardBorder,
-                              color: Colors.TextPrimary,
-                              fontFamily: font,
-                            },
-                          ]}
-                          placeholder="Email"
-                          placeholderTextColor={Colors.TextSecondary}
-                          keyboardType="email-address"
-                          value={formData.email}
-                          onChangeText={text => handleInputChange('email', text)}
-                        /></View>
+            <View style={{flexDirection: 'row'}}>
+              <TextInput
+                style={[
+                  styles.input,
+                  {
+                    borderColor: errors.email
+                      ? Colors.Error
+                      : Colors.CardBorder,
+                    color: Colors.TextPrimary,
+                    fontFamily: font,
+                    fontSize: 14,
+                    width: '70%',
+                    marginRight: 10,
+                  },
+                ]}
+                placeholder="Email"
+                placeholderTextColor={Colors.TextSecondary}
+                keyboardType="email-address"
+                value={formData.email}
+                onChangeText={text => handleInputChange('email', text)}
+              />
+              <TextInput
+                style={[
+                  styles.input,
+                  {
+                    borderColor: errors.pin ? Colors.Error : Colors.CardBorder,
+                    color: Colors.TextPrimary,
+                    fontFamily: font,
+                    flex: 1,
+                  },
+                ]}
+                placeholder="OTP"
+                keyboardType="number-pad"
+                maxLength={4}
+                placeholderTextColor={Colors.TextSecondary}
+                onChangeText={setOTP}
+              />
+            </View>
             {errors.email ? (
               <Text style={styles.errorText}>{errors.email}</Text>
             ) : null}
@@ -190,13 +223,31 @@ const Create: React.FC = () => {
                 flex: 1,
               },
             ]}
-            onPress={handleNext}>
+            onPress={
+              currentIndex === 0
+                ? handleNext
+                : currentIndex === 1 && !OTPVerified && !OTPSent
+                ? handleSendOTP
+                : currentIndex === 1 && !OTPVerified && OTPSent
+                ? handleVerifyOTP
+                : currentIndex === 1 && OTPVerified
+                ? handleNext
+                : handleSignUp
+            }>
             <Text
               style={[
                 styles.buttonText,
                 {color: Colors.Primary, fontSize: 16},
               ]}>
-              {currentIndex < 2 ? ' Next ' : ' Sign Up '}
+              {currentIndex === 0
+                ? 'Next'
+                : currentIndex === 1 && !OTPVerified && !OTPSent
+                ? 'Send OTP'
+                : currentIndex === 1 && !OTPVerified && OTPSent
+                ? 'Verify'
+                : currentIndex === 1 && OTPVerified
+                ? 'Next'
+                : 'Sign Up'}
             </Text>
           </TouchableOpacity>
         </View>
