@@ -114,21 +114,22 @@ const Create: React.FC = () => {
         )}
         {item === 1 && (
           <View>
+            <View>
             <TextInput
-              style={[
-                styles.input,
-                {
-                  borderColor: errors.email ? Colors.Error : Colors.CardBorder,
-                  color: Colors.TextPrimary,
-                  fontFamily: font,
-                },
-              ]}
-              placeholder="Email"
-              placeholderTextColor={Colors.TextSecondary}
-              keyboardType="email-address"
-              value={formData.email}
-              onChangeText={text => handleInputChange('email', text)}
-            />
+                          style={[
+                            styles.input,
+                            {
+                              borderColor: errors.email ? Colors.Error : Colors.CardBorder,
+                              color: Colors.TextPrimary,
+                              fontFamily: font,
+                            },
+                          ]}
+                          placeholder="Email"
+                          placeholderTextColor={Colors.TextSecondary}
+                          keyboardType="email-address"
+                          value={formData.email}
+                          onChangeText={text => handleInputChange('email', text)}
+                        /></View>
             {errors.email ? (
               <Text style={styles.errorText}>{errors.email}</Text>
             ) : null}
