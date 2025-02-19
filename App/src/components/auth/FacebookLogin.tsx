@@ -1,12 +1,18 @@
 import React, {useState} from 'react';
-import {View, TouchableOpacity, StyleSheet, ActivityIndicator} from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {LoginManager, AccessToken} from 'react-native-fbsdk-next';
 import {useTheme} from '../../Theme/Context/Theme';
 import Text from '../shared/Text';
 import Facebook from '../../assets/logo/facebook.svg'; // Import Facebook logo SVG
+import {UserDataProps} from '../Types/ComponentTypes';
 interface FacebookLoginProps {
-  onSuccess: (userData: Object, provider: String) => void;
+  onSuccess: (userData: UserDataProps, provider: string) => void;
 }
 const FacebookLogin: React.FC<FacebookLoginProps> = ({onSuccess}) => {
   const {Colors} = useTheme(); // Get theme colors
@@ -14,8 +20,8 @@ const FacebookLogin: React.FC<FacebookLoginProps> = ({onSuccess}) => {
   const [remarks, setRemarks] = useState<String>();
   async function onFacebookButtonPress() {
     try {
-        setLoading(true);
-        setRemarks("Signup you up")
+      setLoading(true);
+      setRemarks('Signup you up');
       // Attempt login with permissions
       const result = await LoginManager.logInWithPermissions([
         'public_profile',
@@ -35,8 +41,15 @@ const FacebookLogin: React.FC<FacebookLoginProps> = ({onSuccess}) => {
       const response = await fetch(
         `https://graph.facebook.com/me?fields=id,name,email,picture{url},first_name,last_name&access_token=${data.accessToken}`,
       );
-      const userData = await response.json();
-      console.log('Facebook User Data:', userData);
+      const userDataReturned = await response.json();
+      const userData = {
+        firstName: userDataReturned.first_name,
+        lastName: userDataReturned.last_name,
+        id: userDataReturned.id,
+        email: userDataReturned.email,
+        profilePic: userDataReturned.picture.data.url,
+      };
+      onSuccess(userData, 'facebook');
       setLoading(false);
       setRemarks('Signup Successful');
     } catch (error) {
@@ -60,11 +73,19 @@ const FacebookLogin: React.FC<FacebookLoginProps> = ({onSuccess}) => {
         onPress={onFacebookButtonPress}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <View style={{marginLeft: 7}}>
-            {loading?<ActivityIndicator style={{padding:5}} size={30} />:<Facebook height={40} />}
+            {loading ? (
+              <ActivityIndicator style={{padding: 5}} size={30} />
+            ) : (
+              <Facebook height={40} />
+            )}
           </View>
           <Text
             style={[styles.buttonText, {color: Colors.TextPrimary, flex: 1}]}>
-            {loading?"Signup You Up...":remarks?remarks:"Continue with Facebook"}
+            {loading
+              ? 'Signup You Up...'
+              : remarks
+              ? remarks
+              : 'Continue with Facebook'}
           </Text>
         </View>
       </TouchableOpacity>

@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -15,16 +15,18 @@ import {useTheme} from '../../../../../Theme/Context/Theme';
 import {useNavigation} from '@react-navigation/native';
 import {AuthStackNavigationProp} from '../../../../../../navigationTypes';
 import Dash from '../../../../../components/shared/UI/Dash';
+import {useRegistration} from '../../../../../context/RegistrationContext';
 
 const {width} = Dimensions.get('window');
 
 const Create: React.FC = () => {
   const {Colors, font} = useTheme();
   const navigation = useNavigation<AuthStackNavigationProp<'Create'>>();
+  const {userSignupData} = useRegistration();
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
+    firstName: userSignupData?.firstName,
+    lastName: userSignupData?.lastName,
+    email: userSignupData?.email,
     pin: '',
   });
   const [errors, setErrors] = useState({
@@ -80,7 +82,7 @@ const Create: React.FC = () => {
                 ]}
                 placeholder="First Name"
                 placeholderTextColor={Colors.TextSecondary}
-                value={formData.firstName}
+                value={formData.firstName ? formData.firstName : ''}
                 onChangeText={text => handleInputChange('firstName', text)}
               />
               {errors.firstName ? (
@@ -101,7 +103,7 @@ const Create: React.FC = () => {
                 ]}
                 placeholder="Last Name"
                 placeholderTextColor={Colors.TextSecondary}
-                value={formData.lastName}
+                value={formData.lastName ? formData.lastName : ''}
                 onChangeText={text => handleInputChange('lastName', text)}
               />
               {errors.lastName ? (
@@ -224,8 +226,6 @@ const Create: React.FC = () => {
   );
 };
 
-export default Create;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -276,3 +276,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
+
+export default Create;

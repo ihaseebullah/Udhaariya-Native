@@ -1,16 +1,16 @@
-import {createContext, useState, ReactNode, useContext} from 'react';
+import {
+  createContext,
+  useState,
+  ReactNode,
+  useContext,
+  Dispatch,
+  SetStateAction,
+} from 'react';
+import {UserDataProps} from '../components/Types/ComponentTypes';
 
 interface RegistrationContextProps {
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  pin?: string;
-  OTP?: string;
-  provider?: string;
-  setFirstName: (firstName: string) => void;
-  setLastName: (lastName: string) => void;
-  setEmail: (email: string) => void;
-  setProvider: (provider: string) => void;
+  userSignupData: UserDataProps | undefined;
+  setUserData: Dispatch<SetStateAction<UserDataProps | undefined>>;
 }
 
 const RegistrationContext = createContext<RegistrationContextProps | undefined>(
@@ -24,21 +24,12 @@ interface RegistrationContextProviderProps {
 export const RegistrationContextProvider: React.FC<
   RegistrationContextProviderProps
 > = ({children}) => {
-  const [firstName, setFirstName] = useState<string | undefined>(undefined);
-  const [lastName, setLastName] = useState<string | undefined>(undefined);
-  const [email, setEmail] = useState<string | undefined>(undefined);
-  const [provider, setProvider] = useState<string | undefined>(undefined);
+  const [userSignupData, setUserData] = useState<UserDataProps>();
   return (
     <RegistrationContext.Provider
       value={{
-        firstName,
-        lastName,
-        email,
-        provider,
-        setFirstName,
-        setLastName,
-        setEmail,
-        setProvider,
+        userSignupData,
+        setUserData,
       }}>
       {children}
     </RegistrationContext.Provider>

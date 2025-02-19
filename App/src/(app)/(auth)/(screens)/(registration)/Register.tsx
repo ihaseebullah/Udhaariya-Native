@@ -8,11 +8,17 @@ import Udhaariya from '../../../../assets/logo/udhaariya1.svg';
 import EmailLogin from '../../../../components/auth/EmailLogin';
 import Logo from '../../../../components/shared/Logo';
 import {Icon} from '../../../../constants/Icons/Icon';
-const {width} = Dimensions.get('window');
+import {useNavigation} from '@react-navigation/native';
+import {AuthStackNavigationProp} from '../../../../../navigationTypes';
+import {useRegistration} from '../../../../context/RegistrationContext';
+import {UserDataProps} from '../../../../components/Types/ComponentTypes';
 const Register: React.FC = () => {
   const {Colors} = useTheme(); // Access theme-based Colors
-  const handleSuccess = function (userData: Object, provider: String) {
-    console.log(userData);
+  const navigation = useNavigation<AuthStackNavigationProp<'Register'>>();
+  const {setUserData, userSignupData} = useRegistration();
+  const handleSuccess = function (userData: UserDataProps, provider: string) {
+    setUserData(userData);
+    navigation.navigate('Create');
   };
   return (
     <>
