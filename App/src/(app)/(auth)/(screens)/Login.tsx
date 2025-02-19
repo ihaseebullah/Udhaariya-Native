@@ -51,6 +51,8 @@ const Login: React.FC = () => {
               backgroundColor: Colors.CardBackground,
               borderRadius: 26,
               fontFamily: font,
+              flex: 1,
+              marginRight: 5,
             },
           ]}
           keyboardType="email-address"
