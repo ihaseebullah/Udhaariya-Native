@@ -7,6 +7,7 @@ import Register from './(screens)/(registration)/Register';
 import Create from './(screens)/(registration)/(EmailSignup)/Create';
 import {AuthStackParamList} from '../../../navigationTypes';
 import RegistrationContextProvider from '../../context/RegistrationContext';
+import ProfileScreen from './(screens)/Profile';
 
 type AuthProps = {
   route?: {params?: {destination?: keyof AuthStackParamList}};
@@ -25,6 +26,7 @@ const Auth: React.FC<AuthProps> = ({route}) => {
         }}
         initialRouteName={destination}>
         <AuthStack.Screen name="Login" component={Login} />
+        <AuthStack.Screen name="Profile" component={ProfileScreen} />
         <AuthStack.Screen name="Register" component={Register} />
         <AuthStack.Screen name="Create" component={Create} />
       </AuthStack.Navigator>

@@ -16,6 +16,8 @@ import {useNavigation} from '@react-navigation/native';
 import {AuthStackNavigationProp} from '../../../../../../navigationTypes';
 import Dash from '../../../../../components/shared/UI/Dash';
 import {useRegistration} from '../../../../../context/RegistrationContext';
+import axios, {AxiosError} from 'axios';
+import {Server} from '../../../../../constants/server/host';
 
 const {width} = Dimensions.get('window');
 
@@ -26,7 +28,9 @@ const Create: React.FC = () => {
   //OTP Verification ---------Yet to implement
   const [OTPSent, setOTPSent] = useState<boolean>(false);
   const [OTP, setOTP] = useState('');
+  const [correctOTP, setCorrectOTP] = useState<string>();
   const [OTPVerified, setOTPVerified] = useState<boolean>(false);
+  const [uregisterId, setUregisterId] = useState<string>();
 
   const [formData, setFormData] = useState({
     firstName: userSignupData?.firstName,
@@ -68,12 +72,57 @@ const Create: React.FC = () => {
     }
   };
   const handleVerifyOTP = () => {
-    setOTPVerified(true);
+    if (correctOTP === OTP) {
+      setOTPVerified(true);
+    } else {
+      console.log('Invalid OTP');
+    }
   };
-  const handleSendOTP = () => {
-    setOTPSent(true);
+  const handleSendOTP = async () => {
+    try {
+      const response = await axios.post(`${Server}/auth/uregister`, {
+        email: formData.email,
+        password: userSignupData?.id,
+        fullName: `${formData.firstName} ${formData.lastName}`,
+      });
+
+      if (response.status === 201) {
+        setOTPSent(true);
+        setUregisterId(response.data.URId);
+        setCorrectOTP(response.data.OTP);
+      }
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          if (error.response.status === 403) {
+            console.log('User Already Exists');
+            navigation.replace('Login');
+          } else if (error.response.status === 400) {
+            console.log('Email and password are required.');
+          } else {
+            console.log('Error:', error.response.data.message);
+          }
+        } else {
+          console.log('Network error:', error.message);
+        }
+      }
+    }
   };
-  const handleSignUp = () => {};
+
+  const handleSignUp = () => {
+    axios
+      .post(`${Server}/auth/register`, {
+        uregisterId: uregisterId,
+        otp: OTP,
+        pin: formData.pin,
+      })
+      .then(res => {
+        if (res.status === 201) {
+          console.log('User Registered');
+          navigation.replace('Login');
+        }
+      });
+  };
   const renderItem = ({item}: {item: number}) => {
     return (
       <View style={[styles.slide, {backgroundColor: Colors.CardBackground}]}>
@@ -158,7 +207,7 @@ const Create: React.FC = () => {
                 ]}
                 placeholder="OTP"
                 keyboardType="number-pad"
-                maxLength={4}
+                maxLength={6}
                 placeholderTextColor={Colors.TextSecondary}
                 onChangeText={setOTP}
               />

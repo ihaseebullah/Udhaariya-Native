@@ -44,6 +44,27 @@ const Register: React.FC = () => {
         <GoogleLogin onSuccess={handleSuccess} />
         <FacebookLogin onSuccess={handleSuccess} />
         <EmailLogin />
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginTop: 20,
+          }}>
+          <Text style={{color: Colors.TextSecondary}}>
+            Already have an account?
+          </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <Text
+              style={{
+                marginLeft: 10,
+                color: Colors.Blue,
+                textDecorationLine: 'underline',
+              }}>
+              Login here
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
       <Text
         style={{
