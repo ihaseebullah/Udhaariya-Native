@@ -18,6 +18,7 @@ import Dash from '../../../../../components/shared/UI/Dash';
 import {useRegistration} from '../../../../../context/RegistrationContext';
 import axios, {AxiosError} from 'axios';
 import {Server} from '../../../../../constants/server/host';
+import {Icon} from '../../../../../constants/Icons/Icon';
 
 const {width} = Dimensions.get('window');
 
@@ -31,11 +32,15 @@ const Create: React.FC = () => {
   const [correctOTP, setCorrectOTP] = useState<string>();
   const [OTPVerified, setOTPVerified] = useState<boolean>(false);
   const [uregisterId, setUregisterId] = useState<string>();
-
+  const [invalidUsername, setInvalidUsername] = useState<boolean>(false);
+  const [username, setUsername] = useState<string>();
+  const [checkingUsername, setCheckingUsername] = useState<boolean>(false);
   const [formData, setFormData] = useState({
     firstName: userSignupData?.firstName,
     lastName: userSignupData?.lastName,
     email: userSignupData?.email,
+    username:
+      `i${userSignupData?.firstName}_${userSignupData?.lastName}`.toLowerCase(),
     pin: '',
   });
   const [errors, setErrors] = useState({
@@ -48,14 +53,68 @@ const Create: React.FC = () => {
   const flatListRef = useRef<FlatList>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
-
-  const handleNext = () => {
+  useEffect(() => {
+    checkUsernameAvailability();
+  }, [username]);
+  const handleNext = async () => {
     if (currentIndex < 2) {
+      if (currentIndex === 0) {
+      }
       flatListRef.current?.scrollToIndex({index: currentIndex + 1});
       setCurrentIndex(prev => prev + 1);
     } else {
       console.log('User Data:', formData);
       navigation.navigate('Login');
+    }
+  };
+  const checkUsernameAvailability = async () => {
+    try {
+      setCheckingUsername(true);
+      if (!formData.username) {
+        setInvalidUsername(true);
+        setCheckingUsername(false);
+        return;
+      }
+
+      if (!/^[a-zA-Z0-9_]+$/.test(formData.username)) {
+        setInvalidUsername(true);
+        setCheckingUsername(false);
+        return;
+      }
+
+      const response = await axios.put(
+        `${Server}/auth/register/verify-username`,
+        {
+          username: formData.username.toLowerCase(),
+        },
+      );
+
+      console.log('Response:', response.data);
+
+      if (response.status === 200) {
+        setInvalidUsername(false);
+        setCheckingUsername(false);
+      }
+    } catch (err: unknown) {
+      console.error('Error checking username:', err);
+
+      if (err instanceof AxiosError) {
+        setCheckingUsername(false);
+        if (err.response) {
+          if (err.response.status === 400) {
+            console.log('Username is required.');
+          } else if (err.response.status === 403) {
+            console.log('Username already exists.');
+            setInvalidUsername(true);
+          } else {
+            console.log('Server error:', err.response.data.message);
+          }
+        } else if (err.request) {
+          console.log('No response from server. Check network connection.');
+        } else {
+          console.log('Unexpected error:', err.message);
+        }
+      }
     }
   };
 
@@ -127,29 +186,52 @@ const Create: React.FC = () => {
     return (
       <View style={[styles.slide, {backgroundColor: Colors.CardBackground}]}>
         {item === 0 && (
-          <View style={styles.row}>
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={[
-                  styles.input,
-                  {
-                    borderColor: errors.firstName
-                      ? Colors.Error
-                      : Colors.CardBorder,
-                    color: Colors.TextPrimary,
-                    fontFamily: font,
-                  },
-                ]}
-                placeholder="First Name"
-                placeholderTextColor={Colors.TextSecondary}
-                value={formData.firstName ? formData.firstName : ''}
-                onChangeText={text => handleInputChange('firstName', text)}
-              />
-              {errors.firstName ? (
-                <Text style={styles.errorText}>{errors.firstName}</Text>
-              ) : null}
+          <View>
+            <View style={styles.row}>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  style={[
+                    styles.input,
+                    {
+                      borderColor: errors.firstName
+                        ? Colors.Error
+                        : Colors.CardBorder,
+                      color: Colors.TextPrimary,
+                      fontFamily: font,
+                    },
+                  ]}
+                  placeholder="First Name"
+                  placeholderTextColor={Colors.TextSecondary}
+                  value={formData.firstName ? formData.firstName : ''}
+                  onChangeText={text => handleInputChange('firstName', text)}
+                />
+                {errors.firstName ? (
+                  <Text style={styles.errorText}>{errors.firstName}</Text>
+                ) : null}
+              </View>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  style={[
+                    styles.input,
+                    {
+                      borderColor: errors.lastName
+                        ? Colors.Error
+                        : Colors.CardBorder,
+                      color: Colors.TextPrimary,
+                      fontFamily: font,
+                    },
+                  ]}
+                  placeholder="Last Name"
+                  placeholderTextColor={Colors.TextSecondary}
+                  value={formData.lastName ? formData.lastName : ''}
+                  onChangeText={text => handleInputChange('lastName', text)}
+                />
+                {errors.lastName ? (
+                  <Text style={styles.errorText}>{errors.lastName}</Text>
+                ) : null}
+              </View>
             </View>
-            <View style={styles.inputContainer}>
+            <View style={{marginBottom: -15}}>
               <TextInput
                 style={[
                   styles.input,
@@ -161,13 +243,27 @@ const Create: React.FC = () => {
                     fontFamily: font,
                   },
                 ]}
-                placeholder="Last Name"
+                placeholder="username"
                 placeholderTextColor={Colors.TextSecondary}
-                value={formData.lastName ? formData.lastName : ''}
-                onChangeText={text => handleInputChange('lastName', text)}
+                value={formData.username}
+                onChangeText={text => {
+                  handleInputChange('username', text);
+                  setUsername(text);
+                }}
               />
-              {errors.lastName ? (
-                <Text style={styles.errorText}>{errors.lastName}</Text>
+              {invalidUsername ? (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginTop: -5,
+                  }}>
+                  <Icon name="info" size={16} style={{marginRight: 5}} />
+                  <Text
+                    style={
+                      styles.errorText
+                    }>{`${formData.username} not available`}</Text>
+                </View>
               ) : null}
             </View>
           </View>
@@ -355,7 +451,6 @@ const styles = StyleSheet.create({
   errorText: {
     color: 'red',
     fontSize: 12,
-    marginTop: 5,
   },
   dotsContainer: {
     flexDirection: 'row',

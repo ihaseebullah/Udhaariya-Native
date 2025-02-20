@@ -64,7 +64,7 @@ async function UnverifiedRegistration(req, res) {
     }
 }
 
-async function CheckIfUsernameIsAvailable() {
+async function CheckIfUsernameIsAvailable(req, res) {
     try {
         const { username } = req.body;
         if (!username) {
