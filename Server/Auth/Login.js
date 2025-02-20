@@ -1,5 +1,6 @@
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const USER = require('../Models/User');
 const dotenv = require('dotenv').config();
 
 function Login(req, res, next) {
@@ -20,5 +21,26 @@ function Login(req, res, next) {
         });
     })(req, res, next);
 }
-
-module.exports = { Login };
+async function GetUser(req, res) {
+    try {
+        if ((req.params.identifier).includes('@')) {
+            const userInfo = await USER.findOne({ email: req.params.identifier }, { email: 1, username: 1, fullName: 1, profilePicture: 1 })
+            if (userInfo) {
+                res.status(200).json(userInfo)
+            } else {
+                res.status(404).json({ message: 'User not found' })
+            }
+        } else {
+            const userInfo = await USER.findOne({ username: req.params.identifier }, { email: 1, username: 1, fullName: 1, profilePicture: 1 })
+            if (userInfo) {
+                res.status(200).json(userInfo)
+            } else {
+                res.status(404).json({ message: 'User not found' })
+            }
+        }
+    } catch (err) {
+        console.error(err)
+        return res.status(500).json({ message: 'An error occurred' })
+    }
+}
+module.exports = { Login, GetUser };

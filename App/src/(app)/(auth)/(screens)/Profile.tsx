@@ -14,11 +14,23 @@ import {useTheme} from '../../../Theme/Context/Theme';
 import Logo from '../../../components/shared/Logo';
 import {Icon} from '../../../constants/Icons/Icon';
 import {AuthStackNavigationProp} from '../../../../navigationTypes';
+import axios, {AxiosError} from 'axios';
+import {Server} from '../../../constants/server/host';
 
 const ProfileScreen: React.FC = () => {
   const {Colors, font} = useTheme();
   const route = useRoute();
-  const email = (route.params as {email: string})?.email;
+  const userData = (
+    route.params as {
+      userData: {
+        _id: string;
+        username: string;
+        fullName: string;
+        email: string;
+        profilePicture: string;
+      };
+    }
+  )?.userData;
   const navigation = useNavigation<AuthStackNavigationProp<'Profile'>>();
   const [pin, setPin] = useState('');
   const [loading, setLoading] = useState(false);
@@ -45,13 +57,25 @@ const ProfileScreen: React.FC = () => {
     };
   }, []);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (pin.length === 4) {
       setLoading(true);
-      setTimeout(() => {
-        setLoading(false);
-        console.log('Logged in successfully');
-      }, 1500);
+      try {
+        const response = await axios.post(`${Server}/auth/login`, {
+          email: userData?.email,
+          password: pin,
+        });
+        if (response.status === 200) {
+          setLoading(false);
+          console.log(response.data);
+          // navigation.navigate('Main');
+        }
+      } catch (err: unknown) {
+        if (err instanceof AxiosError) {
+          console.log(err.response?.data);
+          setLoading(false);
+        }
+      }
     } else {
       console.log('Please enter a 4-digit PIN.');
     }
@@ -97,20 +121,20 @@ const ProfileScreen: React.FC = () => {
         }}>
         <Image
           source={{
-            uri: 'https://randomuser.me/api/portraits/men/51.jpg',
+            uri: userData?.profilePicture,
           }}
           style={[styles.profileImage, {borderColor: Colors.CardBorder}]}
         />
         <Text
           style={[styles.name, {color: Colors.TextPrimary, fontFamily: font}]}>
-          John Doe
+          {userData.fullName}
         </Text>
         <Text
           style={[
             styles.email,
             {color: Colors.TextSecondary, fontFamily: font},
           ]}>
-          {email}
+          {userData?.email}
         </Text>
       </View>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>

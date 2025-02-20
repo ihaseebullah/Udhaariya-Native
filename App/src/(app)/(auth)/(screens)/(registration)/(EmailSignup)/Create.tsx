@@ -189,6 +189,7 @@ const Create: React.FC = () => {
           otp: OTP,
           pin: formData.pin,
           username: formData.username,
+          profilePicture: userSignupData?.profilePic,
         })
         .then(res => {
           setCreatingAccount(false);

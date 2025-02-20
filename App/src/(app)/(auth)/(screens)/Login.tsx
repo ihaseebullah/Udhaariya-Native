@@ -12,14 +12,38 @@ import {useTheme} from '../../../Theme/Context/Theme';
 import {AuthStackNavigationProp} from '../../../../navigationTypes';
 import Logo from '../../../components/shared/Logo';
 import {Icon} from '../../../constants/Icons/Icon';
+import axios, {AxiosError} from 'axios';
+import {Server} from '../../../constants/server/host';
 
 const Login: React.FC = () => {
   const {Colors, font} = useTheme();
   const navigation = useNavigation<AuthStackNavigationProp<'Profile'>>();
   const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [loading, setLoading] = useState(false);
-  const handleNext = () => {
-    navigation.navigate('Profile', {email: 'ihaseebullah@gmail.com'});
+  const [userData, setUserData] = useState({});
+  const getUserData = async () => {
+    try {
+      setLoading(true);
+      const response = axios.get(`${Server}/auth/login/user/${email}`);
+      if ((await response).status === 200) {
+        let user = (await response).data;
+        setLoading(false);
+        return user;
+      }
+    } catch (err: unknown) {
+      if (err instanceof AxiosError) {
+        console.log(err.response?.data);
+      }
+    }
+  };
+  const handleNext = async () => {
+    if (!email) {
+      console.log('Email is required');
+      return;
+    }
+    const userData = await getUserData();
+    navigation.navigate('Profile', {userData: userData});
   };
 
   return (

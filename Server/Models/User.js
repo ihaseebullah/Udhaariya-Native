@@ -13,7 +13,8 @@ const UserSchema = new mongoose.Schema({
     VFCP: { type: Boolean, default: false },
     lastPasswordChangedOn: { type: Date, default: new Date() },
     linkedEmails: [String],
-    FCM: String
+    FCM: String,
+    profilePicture: String,
 }, {
     timestamps: true,
     versionKey: false

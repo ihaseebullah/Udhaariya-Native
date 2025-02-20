@@ -16,7 +16,16 @@ export type AuthStackParamList = {
   Login: undefined;
   Register: undefined;
   Create: undefined;
-  Profile?: {email: string};
+  Profile?: {
+    userData: {
+      _id: string;
+      username: string;
+      fullName: string;
+      email: string;
+      profilePicture: string;
+    };
+  };
+  Main: undefined;
 };
 
 export type AuthStackNavigationProp<T extends keyof AuthStackParamList> =
