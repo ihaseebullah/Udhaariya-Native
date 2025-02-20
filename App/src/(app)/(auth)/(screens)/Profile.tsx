@@ -9,15 +9,17 @@ import {
   ActivityIndicator,
   Keyboard,
 } from 'react-native';
-import {useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {useTheme} from '../../../Theme/Context/Theme';
 import Logo from '../../../components/shared/Logo';
 import {Icon} from '../../../constants/Icons/Icon';
+import {AuthStackNavigationProp} from '../../../../navigationTypes';
 
 const ProfileScreen: React.FC = () => {
   const {Colors, font} = useTheme();
   const route = useRoute();
   const email = (route.params as {email: string})?.email;
+  const navigation = useNavigation<AuthStackNavigationProp<'Profile'>>();
   const [pin, setPin] = useState('');
   const [loading, setLoading] = useState(false);
   const [showLogo, setShowLogo] = useState(true);
@@ -57,9 +59,24 @@ const ProfileScreen: React.FC = () => {
 
   return (
     <View style={[styles.container, {backgroundColor: Colors.Primary}]}>
-      {/* Logo Header */}
-      {showLogo && (
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={{
+          marginTop: 20,
+          backgroundColor: Colors.CardBackground,
+          padding: 10,
+          borderRadius: 50,
+          width: 50,
+          height: 50,
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderColor: Colors.CardBorder,
+          borderWidth: 2,
+        }}>
+        <Icon name="back" />
+      </TouchableOpacity>
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        {showLogo && (
           <View
             style={{
               flexDirection: 'row',
@@ -70,18 +87,20 @@ const ProfileScreen: React.FC = () => {
               <Logo size={2} key={'ProfileScreenLogo'} />
             </View>
           </View>
-        </View>
-      )}
+        )}
+      </View>
       <View
-        style={{justifyContent: 'center', width: '100%', alignItems: 'center'}}>
-        {/* Profile Image */}
+        style={{
+          justifyContent: 'center',
+          width: '100%',
+          alignItems: 'center',
+        }}>
         <Image
           source={{
-            uri: 'https://randomuser.me/api/portraits/men/50.jpg',
+            uri: 'https://randomuser.me/api/portraits/men/51.jpg',
           }}
-          style={styles.profileImage}
+          style={[styles.profileImage, {borderColor: Colors.CardBorder}]}
         />
-        {/* Profile Name & Email */}
         <Text
           style={[styles.name, {color: Colors.TextPrimary, fontFamily: font}]}>
           John Doe
@@ -95,7 +114,6 @@ const ProfileScreen: React.FC = () => {
         </Text>
       </View>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        {/* PIN Input */}
         <TextInput
           value={pin}
           onChangeText={setPin}
@@ -116,7 +134,6 @@ const ProfileScreen: React.FC = () => {
           secureTextEntry
         />
 
-        {/* Login Button */}
         <TouchableOpacity
           disabled={loading || pin.length !== 4}
           style={[
@@ -139,6 +156,30 @@ const ProfileScreen: React.FC = () => {
           </Text>
         </TouchableOpacity>
       </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginTop: -15,
+          justifyContent: 'flex-end',
+          marginRight: 10,
+          marginBottom: 20,
+        }}>
+        <Text style={{color: Colors.TextSecondary, textAlign: 'right'}}>
+          Forgot your pin?
+        </Text>
+        <TouchableOpacity onPress={() => console.log('Login')}>
+          <Text
+            style={{
+              marginLeft: 10,
+              color: Colors.Blue,
+              textDecorationLine: 'underline',
+              textAlign: 'right',
+            }}>
+            Reset here
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -155,6 +196,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginBottom: 10,
     borderWidth: 2,
+    padding: 4,
   },
   name: {
     fontSize: 22,

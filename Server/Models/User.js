@@ -3,13 +3,14 @@ const bcrypt = require('bcrypt');
 
 // Define your User schema
 const UserSchema = new mongoose.Schema({
+    username: { type: String, unique: true },
     fullName: String,
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     // address: String,
     OTP: { type: String },
     isVerified: { type: Boolean, default: false },
-    VFCP: { type: Boolean, default: false }, 
+    VFCP: { type: Boolean, default: false },
     lastPasswordChangedOn: { type: Date, default: new Date() },
     linkedEmails: [String],
     FCM: String

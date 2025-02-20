@@ -37,47 +37,73 @@ const Login: React.FC = () => {
         </View>
       </View>
 
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <TextInput
-          value={email}
-          onChangeText={setEmail}
-          placeholder="Enter your email or username"
-          placeholderTextColor={Colors.TextSecondary}
-          style={[
-            styles.input,
-            {
-              borderColor: Colors.CardBorder,
-              color: Colors.TextPrimary,
-              backgroundColor: Colors.CardBackground,
-              borderRadius: 26,
-              fontFamily: font,
-              flex: 1,
-              marginRight: 5,
-            },
-          ]}
-          keyboardType="email-address"
-        />
-        <TouchableOpacity
-          disabled={loading || !email}
-          style={[
-            styles.button,
-            {
-              backgroundColor: Colors.CardBackground,
-              padding: 10,
-              borderWidth: 2,
-              borderColor: Colors.CardBorder,
-              borderRadius: 26,
-            },
-          ]}
-          onPress={handleNext}>
-          <Text style={[styles.buttonText, {color: Colors.Primary}]}>
-            {loading ? (
-              <ActivityIndicator size={25} color={Colors.TextPrimary} />
-            ) : (
-              <Icon name="Next" />
-            )}
+      <View>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <TextInput
+            value={email}
+            onChangeText={setEmail}
+            placeholder="Email or username"
+            placeholderTextColor={Colors.TextSecondary}
+            style={[
+              styles.input,
+              {
+                borderColor: Colors.CardBorder,
+                color: Colors.TextPrimary,
+                backgroundColor: Colors.CardBackground,
+                borderRadius: 26,
+                fontFamily: font,
+                flex: 1,
+                marginRight: 5,
+              },
+            ]}
+            keyboardType="email-address"
+          />
+          <TouchableOpacity
+            disabled={loading || !email}
+            style={[
+              styles.button,
+              {
+                backgroundColor: Colors.CardBackground,
+                padding: 10,
+                borderWidth: 2,
+                borderColor: Colors.CardBorder,
+                borderRadius: 26,
+              },
+            ]}
+            onPress={handleNext}>
+            <Text style={[styles.buttonText, {color: Colors.Primary}]}>
+              {loading ? (
+                <ActivityIndicator size={25} color={Colors.TextPrimary} />
+              ) : (
+                <Icon name="Next" />
+              )}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginTop: -15,
+            justifyContent: 'flex-end',
+            marginRight: 10,
+            marginBottom: 20,
+          }}>
+          <Text style={{color: Colors.TextSecondary, textAlign: 'right'}}>
+            Not signed up yet?
           </Text>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+            <Text
+              style={{
+                marginLeft: 10,
+                color: Colors.Blue,
+                textDecorationLine: 'underline',
+                textAlign: 'right',
+              }}>
+              Signup here
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

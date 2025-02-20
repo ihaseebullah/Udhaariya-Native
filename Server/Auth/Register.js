@@ -4,7 +4,7 @@ const { sendVerificationEmail } = require("../Utils/sendMail");
 
 async function Register(req, res) {
     try {
-        const { uregisterId, otp, pin } = req.body;
+        const { uregisterId, otp, pin, username } = req.body;
 
 
         if (!uregisterId || !otp) {
@@ -64,4 +64,20 @@ async function UnverifiedRegistration(req, res) {
     }
 }
 
-module.exports = { Register, UnverifiedRegistration };
+async function CheckIfUsernameIsAvailable() {
+    try {
+        const { username } = req.body;
+        if (!username) {
+            return res.status(400).json({ message: 'Username is required' });
+        }
+        const existingUser = await USER.findOne({ username });
+        if (existingUser) {
+            return res.status(403).json({ message: 'Username already exists.' });
+        }
+        res.status(200).json({ message: 'Username is available.' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}
+
+module.exports = { Register, UnverifiedRegistration, CheckIfUsernameIsAvailable };
