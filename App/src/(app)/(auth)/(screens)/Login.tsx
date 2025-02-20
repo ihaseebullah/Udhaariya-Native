@@ -4,24 +4,24 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Text,
   ActivityIndicator,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '../../../Theme/Context/Theme';
 import {AuthStackNavigationProp} from '../../../../navigationTypes';
-import Logo from '../../../components/shared/Logo';
 import {Icon} from '../../../constants/Icons/Icon';
 import axios, {AxiosError} from 'axios';
 import {Server} from '../../../constants/server/host';
+import CustomLoader from '../../../components/shared/UI/CustomLoader';
+import LoginSvg from '../../../assets/svg/login3.svg';
+import Text from '../../../components/shared/Text';
 
 const Login: React.FC = () => {
   const {Colors, font} = useTheme();
   const navigation = useNavigation<AuthStackNavigationProp<'Profile'>>();
   const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
   const [loading, setLoading] = useState(false);
-  const [userData, setUserData] = useState({});
+
   const getUserData = async () => {
     try {
       setLoading(true);
@@ -37,6 +37,7 @@ const Login: React.FC = () => {
       }
     }
   };
+
   const handleNext = async () => {
     if (!email) {
       console.log('Email is required');
@@ -48,19 +49,18 @@ const Login: React.FC = () => {
 
   return (
     <View style={[styles.container, {backgroundColor: Colors.Primary}]}>
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            marginBottom: 50,
-          }}>
-          <View style={{maxWidth: '93%'}}>
-            <Logo size={2} key={'LoginScreenLogo'} />
-          </View>
-        </View>
+      <CustomLoader visible={loading} />
+
+      {/* SVG Section */}
+      <View style={[styles.svgContainer, {flex: 1}]}>
+        <LoginSvg
+          width="100%"
+          height="100%"
+          preserveAspectRatio="xMidYMid meet"
+        />
       </View>
 
+      {/* Input & Button */}
       <View>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <TextInput
@@ -104,26 +104,14 @@ const Login: React.FC = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: -15,
-            justifyContent: 'flex-end',
-            marginRight: 10,
-            marginBottom: 20,
-          }}>
+
+        {/* Signup Section */}
+        <View style={styles.signupContainer}>
           <Text style={{color: Colors.TextSecondary, textAlign: 'right'}}>
             Not signed up yet?
           </Text>
           <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-            <Text
-              style={{
-                marginLeft: 10,
-                color: Colors.Blue,
-                textDecorationLine: 'underline',
-                textAlign: 'right',
-              }}>
+            <Text style={[styles.signupText, {color: Colors.Blue}]}>
               Signup here
             </Text>
           </TouchableOpacity>
@@ -139,10 +127,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 20,
   },
-  title: {
-    fontSize: 24,
-    marginBottom: 50,
-    textAlign: 'center',
+  svgContainer: {
+    width: '100%',
+    height: 200, // Adjust height as needed
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 30, // Space between SVG and input fields
   },
   input: {
     height: 50,
@@ -161,6 +151,19 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  signupContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    marginTop: -15,
+    marginRight: 10,
+    marginBottom: 20,
+  },
+  signupText: {
+    marginLeft: 10,
+    textDecorationLine: 'underline',
+    textAlign: 'right',
   },
 });
 

@@ -16,7 +16,8 @@ import {Icon} from '../../../constants/Icons/Icon';
 import {AuthStackNavigationProp} from '../../../../navigationTypes';
 import axios, {AxiosError} from 'axios';
 import {Server} from '../../../constants/server/host';
-
+import PinSvg from '../../../assets/svg/pin2.svg';
+import CustomLoader from '../../../components/shared/UI/CustomLoader';
 const ProfileScreen: React.FC = () => {
   const {Colors, font} = useTheme();
   const route = useRoute();
@@ -83,6 +84,7 @@ const ProfileScreen: React.FC = () => {
 
   return (
     <View style={[styles.container, {backgroundColor: Colors.Primary}]}>
+      <CustomLoader visible={loading} />
       <TouchableOpacity
         onPress={() => navigation.goBack()}
         style={{
@@ -106,9 +108,10 @@ const ProfileScreen: React.FC = () => {
               flexDirection: 'row',
               justifyContent: 'center',
               marginBottom: 20,
+              marginLeft: 100,
             }}>
-            <View style={{maxWidth: '93%'}}>
-              <Logo size={2} key={'ProfileScreenLogo'} />
+            <View>
+              <PinSvg height={'90%'} />
             </View>
           </View>
         )}
