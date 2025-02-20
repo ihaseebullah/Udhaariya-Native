@@ -10,6 +10,7 @@ import {
   Animated,
   KeyboardAvoidingView,
   Platform,
+  ActivityIndicator,
 } from 'react-native';
 import {useTheme} from '../../../../../Theme/Context/Theme';
 import {useNavigation} from '@react-navigation/native';
@@ -35,6 +36,8 @@ const Create: React.FC = () => {
   const [invalidUsername, setInvalidUsername] = useState<boolean>(false);
   const [username, setUsername] = useState<string>();
   const [checkingUsername, setCheckingUsername] = useState<boolean>(false);
+  const [sendingOTP, setSendingOTP] = useState<boolean>(false);
+  const [creatingAccount, setCreatingAccount] = useState<boolean>(false);
   const [formData, setFormData] = useState({
     firstName: userSignupData?.firstName,
     lastName: userSignupData?.lastName,
@@ -53,12 +56,15 @@ const Create: React.FC = () => {
   const flatListRef = useRef<FlatList>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
-  useEffect(() => {
-    checkUsernameAvailability();
-  }, [username]);
+
   const handleNext = async () => {
     if (currentIndex < 2) {
       if (currentIndex === 0) {
+        await checkUsernameAvailability();
+        if (invalidUsername) {
+          flatListRef.current?.scrollToIndex({index: currentIndex + 1});
+          setCurrentIndex(prev => prev + 1);
+        }
       }
       flatListRef.current?.scrollToIndex({index: currentIndex + 1});
       setCurrentIndex(prev => prev + 1);
@@ -139,6 +145,8 @@ const Create: React.FC = () => {
   };
   const handleSendOTP = async () => {
     try {
+      setSendingOTP(true); // Start loader before request
+
       const response = await axios.post(`${Server}/auth/uregister`, {
         email: formData.email,
         password: userSignupData?.id,
@@ -164,23 +172,45 @@ const Create: React.FC = () => {
         } else {
           console.log('Network error:', error.message);
         }
+      } else {
+        console.log('Unexpected error:', error);
       }
+    } finally {
+      setSendingOTP(false); // Ensure loader stops in all cases
     }
   };
 
   const handleSignUp = () => {
-    axios
-      .post(`${Server}/auth/register`, {
-        uregisterId: uregisterId,
-        otp: OTP,
-        pin: formData.pin,
-      })
-      .then(res => {
-        if (res.status === 201) {
-          console.log('User Registered');
-          navigation.replace('Login');
+    try {
+      setCreatingAccount(true);
+      axios
+        .post(`${Server}/auth/register`, {
+          uregisterId: uregisterId,
+          otp: OTP,
+          pin: formData.pin,
+          username: formData.username,
+        })
+        .then(res => {
+          setCreatingAccount(false);
+          if (res.status === 201) {
+            console.log('User Registered');
+            navigation.replace('Login');
+          }
+        });
+    } catch (err: unknown) {
+      setCreatingAccount(false);
+      if (err instanceof AxiosError) {
+        if (err.response) {
+          if (err.response.status === 403) {
+            console.log('Invalid OTP');
+          } else {
+            console.log('Error:', err.response.data.message);
+          }
+        } else {
+          console.log('Network error:', err.message);
         }
-      });
+      }
+    }
   };
   const renderItem = ({item}: {item: number}) => {
     return (
@@ -248,23 +278,41 @@ const Create: React.FC = () => {
                 value={formData.username}
                 onChangeText={text => {
                   handleInputChange('username', text);
-                  setUsername(text);
+                  checkUsernameAvailability();
                 }}
               />
-              {invalidUsername ? (
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginTop: -5,
-                  }}>
-                  <Icon name="info" size={16} style={{marginRight: 5}} />
-                  <Text
-                    style={
-                      styles.errorText
-                    }>{`${formData.username} not available`}</Text>
-                </View>
-              ) : null}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginTop: -5,
+                }}>
+                {invalidUsername && !checkingUsername ? (
+                  <>
+                    <Icon name="info" size={16} style={{marginRight: 5}} />
+                    <Text
+                      style={[
+                        styles.errorText,
+                        {color: Colors.TextSecondary},
+                      ]}>{`${formData.username} not available`}</Text>
+                  </>
+                ) : (
+                  checkingUsername && (
+                    <>
+                      <ActivityIndicator
+                        size={16}
+                        color={Colors.TextSecondary}
+                        style={{marginRight: 5}}
+                      />
+                      <Text
+                        style={[
+                          styles.errorText,
+                          {color: Colors.TextSecondary},
+                        ]}>{`${formData.username} checking availablity`}</Text>
+                    </>
+                  )
+                )}
+              </View>
             </View>
           </View>
         )}
@@ -311,6 +359,28 @@ const Create: React.FC = () => {
             {errors.email ? (
               <Text style={styles.errorText}>{errors.email}</Text>
             ) : null}
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+                marginRight: 10,
+              }}>
+              <Text style={{color: Colors.TextSecondary, textAlign: 'right'}}>
+                Didn't receive OTP?
+              </Text>
+              <TouchableOpacity onPress={handleSendOTP}>
+                <Text
+                  style={{
+                    marginLeft: 10,
+                    color: Colors.Blue,
+                    textDecorationLine: 'underline',
+                    textAlign: 'right',
+                  }}>
+                  Resend
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         )}
         {item === 2 && (
@@ -359,6 +429,7 @@ const Create: React.FC = () => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
+            disabled={checkingUsername || invalidUsername || sendingOTP} // Ensure button is disabled only when needed
             style={[
               styles.button,
               {
@@ -368,32 +439,44 @@ const Create: React.FC = () => {
                 flex: 1,
               },
             ]}
-            onPress={
-              currentIndex === 0
-                ? handleNext
-                : currentIndex === 1 && !OTPVerified && !OTPSent
-                ? handleSendOTP
-                : currentIndex === 1 && !OTPVerified && OTPSent
-                ? handleVerifyOTP
-                : currentIndex === 1 && OTPVerified
-                ? handleNext
-                : handleSignUp
-            }>
-            <Text
-              style={[
-                styles.buttonText,
-                {color: Colors.Primary, fontSize: 16},
-              ]}>
-              {currentIndex === 0
-                ? 'Next'
-                : currentIndex === 1 && !OTPVerified && !OTPSent
-                ? 'Send OTP'
-                : currentIndex === 1 && !OTPVerified && OTPSent
-                ? 'Verify'
-                : currentIndex === 1 && OTPVerified
-                ? 'Next'
-                : 'Sign Up'}
-            </Text>
+            onPress={() => {
+              if (currentIndex === 0) {
+                handleNext();
+              } else if (currentIndex === 1) {
+                if (!OTPVerified) {
+                  OTPSent ? handleVerifyOTP() : handleSendOTP();
+                } else {
+                  handleNext();
+                }
+              } else {
+                handleSignUp();
+              }
+            }}>
+            {sendingOTP ? (
+              <ActivityIndicator size={26} color={Colors.Primary} />
+            ) : (
+              <Text
+                style={[
+                  styles.buttonText,
+                  {color: Colors.Primary, fontSize: 16},
+                ]}>
+                {currentIndex === 0 ? (
+                  'Next'
+                ) : currentIndex === 1 && !OTPVerified ? (
+                  OTPSent ? (
+                    'Verify'
+                  ) : (
+                    'Send OTP'
+                  )
+                ) : currentIndex === 1 && OTPVerified ? (
+                  'Next'
+                ) : creatingAccount ? (
+                  <ActivityIndicator size={26} color={Colors.Primary} />
+                ) : (
+                  'Sign Up'
+                )}
+              </Text>
+            )}
           </TouchableOpacity>
         </View>
       </View>
@@ -449,7 +532,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   errorText: {
-    color: 'red',
     fontSize: 12,
   },
   dotsContainer: {

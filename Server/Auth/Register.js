@@ -25,7 +25,7 @@ async function Register(req, res) {
             return res.status(400).json({ message: 'Email already exists.' });
         }
 
-        const newUser = new USER({ email: uregisterUser.email, password: pin, fullName: uregisterUser.fullName, isVerified: true, linkedEmails: [uregisterUser.email] });
+        const newUser = new USER({ email: uregisterUser.email, username, password: pin, fullName: uregisterUser.fullName, isVerified: true, linkedEmails: [uregisterUser.email] });
 
         await URegister.findByIdAndDelete(uregisterId);
 
