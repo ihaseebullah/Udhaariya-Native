@@ -5,9 +5,11 @@ import {useTheme} from '../Theme/Context/Theme';
 import Auth from './(auth)/Auth';
 import OboardingStack from './(onboarding)/OboardingStack';
 import {RootStackParamList} from '../../navigationTypes';
+import {getFcmToken} from '../Utility/functions/GetFCMToken';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Root = () => {
   const {Colors, isDarkMode} = useTheme();
+  getFcmToken();
   return (
     <>
       <StatusBar

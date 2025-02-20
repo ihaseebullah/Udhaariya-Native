@@ -5,7 +5,7 @@ import {MainStackParamList} from '../../../navigationTypes';
 const MainStackNav = createNativeStackNavigator<MainStackParamList>();
 const MainStack = () => {
   return (
-    <MainStackNav.Navigator>
+    <MainStackNav.Navigator screenOptions={{headerShown: false}}>
       <MainStackNav.Screen name="Home" component={Home} />
     </MainStackNav.Navigator>
   );

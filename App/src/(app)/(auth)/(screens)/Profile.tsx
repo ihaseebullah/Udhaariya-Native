@@ -4,7 +4,6 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Text,
   Image,
   ActivityIndicator,
   Keyboard,
@@ -18,8 +17,11 @@ import axios, {AxiosError} from 'axios';
 import {Server} from '../../../constants/server/host';
 import PinSvg from '../../../assets/svg/pin2.svg';
 import CustomLoader from '../../../components/shared/UI/CustomLoader';
+import Text from '../../../components/shared/Text';
+import {useUser} from '../../../context/UserContext';
 const ProfileScreen: React.FC = () => {
   const {Colors, font} = useTheme();
+  const {setUser} = useUser();
   const route = useRoute();
   const userData = (
     route.params as {
@@ -69,7 +71,8 @@ const ProfileScreen: React.FC = () => {
         if (response.status === 200) {
           setLoading(false);
           console.log(response.data);
-          // navigation.navigate('Main');
+          setUser(response.data.user);
+          navigation.navigate('Main');
         }
       } catch (err: unknown) {
         if (err instanceof AxiosError) {
