@@ -14,7 +14,24 @@ async function sendNotification(token, title, body) {
     };
 
     try {
-        const response = await admin.messaging().send(message);
+        const response = await admin.messaging().send({
+            token: token, data: {
+                notifee: JSON.stringify({
+                    body: 'This message was sent via FCM!',
+                    android: {
+                        channelId: 'default',
+                        actions: [
+                            {
+                                title: 'Mark as Read',
+                                pressAction: {
+                                    id: 'read',
+                                },
+                            },
+                        ],
+                    },
+                }),
+            }
+        });
         console.log('Notification sent:', response);
     } catch (error) {
         console.error('Error sending notification:', error);
