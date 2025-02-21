@@ -133,7 +133,7 @@ const ProfileScreen: React.FC = () => {
         />
         <Text
           style={[styles.name, {color: Colors.TextPrimary, fontFamily: font}]}>
-          {userData.fullName}
+          {userData?.fullName}
         </Text>
         <Text
           style={[

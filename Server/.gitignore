@@ -33,7 +33,7 @@ local.properties
 .cxx/
 *.keystore
 !debug.keystore
-
+udhaariya-firebase-adminsdk-fbsvc-3fa5ac16f6.json
 # node.js
 #
 node_modules/
