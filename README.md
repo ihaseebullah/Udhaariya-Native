@@ -3,7 +3,6 @@
 UDHAARIYA is a React Native app designed to simplify and add humor to the process of managing shared expenses among friends, especially in hostels. It solves the problem of awkwardness in reminding friends about owed money by making the experience fun and engaging.
 
 **Note:** This project is currently under development and is open for contributions! Feel free to join us in building this app.
-
 ---
 
 ## Features
