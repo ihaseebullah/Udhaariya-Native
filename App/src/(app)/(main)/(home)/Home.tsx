@@ -18,7 +18,7 @@ const Home: React.FC<HomeProps> = ({}) => {
   const {user} = useUser();
   return (
     <View>
-      <Text>Hello {user?.fullName}</Text>
+      <Text>Hello {user?.fullName}.</Text>
     </View>
   );
 };
