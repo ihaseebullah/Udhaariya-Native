@@ -7,6 +7,7 @@ export type RootStackParamList = {
   OnboardingTwo: undefined;
   OnboardingThree: undefined;
   Auth: {destination: String};
+  Main: undefined;
 };
 
 export type RootStackNavigationProp<T extends keyof RootStackParamList> =
