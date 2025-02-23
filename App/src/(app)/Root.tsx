@@ -11,7 +11,6 @@ import messaging, {
   FirebaseMessagingTypes,
 } from '@react-native-firebase/messaging';
 import Toast from 'react-native-toast-message';
-import { CheckUserIsLoggedIn } from '../Utility/functions/CheckUserIsLoggedIn';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -81,20 +80,18 @@ const Root = () => {
         backgroundColor={Colors.Primary}
         animated={true}
       />
-      <Stack.Navigator initialRouteName="OnboardingOne">
+      <Stack.Navigator initialRouteName="OnboardingStack">
         <Stack.Screen
-          name="OnboardingOne"
+          name="OnboardingStack"
           component={OnboardingStack}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="Auth"
+          name="AuthStack"
           component={Auth}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
-
-      {/* Ensure Toast is included in the Root Component */}
       <Toast />
     </>
   );
