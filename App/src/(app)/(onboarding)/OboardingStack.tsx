@@ -1,11 +1,12 @@
 import {View, Text, StatusBar} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import OnboardingOne from './OnboardingOne';
 import {useTheme} from '../../Theme/Context/Theme';
 import OnboardingTwo from './OnboardingTwo';
 import OnboardingThree from './OnboardingThree';
 import Splash from './Splash';
+import MainStack from '../(main)/MainStack';
 const Onboarding = createNativeStackNavigator();
 const OboardingStack = () => {
   const {Colors, isDarkMode} = useTheme();
@@ -27,6 +28,7 @@ const OboardingStack = () => {
         <Onboarding.Screen name="OnboardingOne" component={OnboardingOne} />
         <Onboarding.Screen name="OnboardingTwo" component={OnboardingTwo} />
         <Onboarding.Screen name="OnboardingThree" component={OnboardingThree} />
+        <Onboarding.Screen name="Main" component={MainStack} />
       </Onboarding.Navigator>
     </>
   );

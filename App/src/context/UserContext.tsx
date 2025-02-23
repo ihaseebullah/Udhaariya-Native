@@ -1,6 +1,13 @@
-import React, {createContext, useContext, useState, ReactNode} from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from 'react';
+import {CheckUserIsLoggedIn} from '../Utility/functions/CheckUserIsLoggedIn';
 
-interface User {
+export interface User {
   VFCP: boolean;
   createdAt: string;
   email: string;
@@ -18,6 +25,8 @@ interface User {
 interface UserContextProps {
   user?: User | null;
   setUser: (user: User | null) => void;
+  loading?: boolean;
+  setLoading: (loading: boolean) => void;
 }
 
 const UserContext = createContext<UserContextProps | undefined>(undefined);
@@ -26,9 +35,24 @@ export const UserContextProvider: React.FC<{children: ReactNode}> = ({
   children,
 }) => {
   const [user, setUser] = useState<User | null>(null);
-
+  const [loading, setLoading] = useState<boolean>(true);
+  async function getUser() {
+    const userData = await CheckUserIsLoggedIn();
+    if (userData != null) {
+      if ('email' in userData) {
+        setUser(userData);
+        setLoading(false);
+      } else {
+        setUser(null);
+        setLoading(false);
+      }
+    }
+  }
+  useEffect(() => {
+    getUser();
+  }, []);
   return (
-    <UserContext.Provider value={{user, setUser}}>
+    <UserContext.Provider value={{user, setUser, loading, setLoading}}>
       {children}
     </UserContext.Provider>
   );

@@ -4,14 +4,22 @@ import Udhaariya from '../../assets/logo/udhaariya.svg';
 import Text from '../../components/shared/Text';
 import {useNavigation} from '@react-navigation/native';
 import {RootStackNavigationProp} from '../../../navigationTypes';
+import {useUser} from '../../context/UserContext';
+
 const Splash: React.FC = () => {
   const navigation = useNavigation<RootStackNavigationProp<'Splash'>>();
+  const {user, loading} = useUser();
+
   useEffect(() => {
-    const timer = setTimeout(() => {
-      navigation.replace('OnboardingOne');
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, [navigation]);
+    if (!loading) {
+      if (user) {
+        console.log(user);
+        navigation.navigate('Main');
+      } else {
+        navigation.navigate('Auth', {destination: 'Register'});
+      }
+    }
+  }, [loading, user, navigation]);
 
   return (
     <>
