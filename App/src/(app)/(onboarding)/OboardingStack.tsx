@@ -28,7 +28,7 @@ const OboardingStack = () => {
         <Onboarding.Screen name="OnboardingOne" component={OnboardingOne} />
         <Onboarding.Screen name="OnboardingTwo" component={OnboardingTwo} />
         <Onboarding.Screen name="OnboardingThree" component={OnboardingThree} />
-        <Onboarding.Screen name="Main" component={MainStack} />
+        <Onboarding.Screen name="MainStackOnboarding" component={MainStack} />
       </Onboarding.Navigator>
     </>
   );

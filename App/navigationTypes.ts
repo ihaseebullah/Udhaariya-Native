@@ -1,13 +1,14 @@
+import {BottomTabNavigatorProps} from '@react-navigation/bottom-tabs';
 import {RouteProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
   Splash: undefined;
-  OnboardingOne: undefined;
+  OnboardingStack: undefined;
   OnboardingTwo: undefined;
   OnboardingThree: undefined;
-  Auth: {destination: String};
-  Main: undefined;
+  AuthStack: {destination: String};
+  MainStackOnboarding: undefined;
 };
 
 export type RootStackNavigationProp<T extends keyof RootStackParamList> =
@@ -26,14 +27,14 @@ export type AuthStackParamList = {
       profilePicture: string;
     };
   };
-  Main: undefined;
+  MainStackAuth: undefined;
 };
 
 export type AuthStackNavigationProp<T extends keyof AuthStackParamList> =
   NativeStackNavigationProp<AuthStackParamList, T>;
 
 export type MainStackParamList = {
-  Home: undefined;
+  BottomTab: undefined;
 };
 
 export type MainStackNavigationProp<T extends keyof MainStackParamList> =

@@ -30,7 +30,7 @@ const Auth: React.FC<AuthProps> = ({route}) => {
         <AuthStack.Screen name="Profile" component={ProfileScreen} />
         <AuthStack.Screen name="Register" component={Register} />
         <AuthStack.Screen name="Create" component={Create} />
-        <AuthStack.Screen name="Main" component={MainStack} />
+        <AuthStack.Screen name="MainStackAuth" component={MainStack} />
       </AuthStack.Navigator>
     </RegistrationContextProvider>
   );

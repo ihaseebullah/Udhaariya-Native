@@ -14,9 +14,9 @@ const Splash: React.FC = () => {
     if (!loading) {
       if (user) {
         console.log(user);
-        navigation.navigate('Main');
+        navigation.navigate('MainStackOnboarding');
       } else {
-        navigation.navigate('Auth', {destination: 'Register'});
+        navigation.navigate('AuthStack', {destination: 'Register'});
       }
     }
   }, [loading, user, navigation]);
