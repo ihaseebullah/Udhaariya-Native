@@ -15,7 +15,6 @@ export default function BottomTab() {
         tabBarStyle: {
           backgroundColor: Colors.Primary, // Use Primary as the tab bar background
           borderTopColor: Colors.CardBorder, // Subtle border for separation
-          borderTopWidth: 1,
         },
         tabBarActiveTintColor: Colors.TintColorLight, // Active icon/text color
         tabBarInactiveTintColor: Colors.TextSecondary, // Inactive icon/text color
@@ -41,7 +40,7 @@ export default function BottomTab() {
         }}
       />
       <Tab.Screen
-        name="Chat"
+        name="Notifications"
         component={Home}
         options={{
           tabBarIcon: ({color}) => (
