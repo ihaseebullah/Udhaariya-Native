@@ -8,7 +8,7 @@ import React, {
   ReactNode,
 } from 'react';
 
-type FontType = {regular: string; bold: string};
+type FontType = {regular: string; bold: string; inter: string};
 
 type ThemeContextType = {
   isDarkMode: boolean;
@@ -29,6 +29,7 @@ export const ThemeProvider = ({children}: ThemeProviderProps) => {
   const [font, setFont] = useState<FontType>({
     regular: 'Poppins',
     bold: 'Poppins-Bold',
+    inter: 'Inter_28-Bold',
   });
 
   // Load theme and font from storage
