@@ -50,6 +50,8 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Poppins.ttf</string>
+		<string>Poppins-Bold.ttf</string>
+		<string>Inter_28pt-Bold.ttf</string>
 	</array>
 </dict>
 </plist>
