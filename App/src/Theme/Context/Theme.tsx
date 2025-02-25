@@ -8,12 +8,14 @@ import React, {
   ReactNode,
 } from 'react';
 
+type FontType = {regular: string; bold: string};
+
 type ThemeContextType = {
   isDarkMode: boolean;
   toggleTheme: () => void;
   Colors: ReturnType<typeof getColors>;
-  font: string;
-  setFont: (font: string) => void;
+  font: FontType;
+  setFont: (font: FontType) => void;
 };
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -24,7 +26,10 @@ type ThemeProviderProps = {
 
 export const ThemeProvider = ({children}: ThemeProviderProps) => {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
-  const [font, setFont] = useState<string>('Poppins');
+  const [font, setFont] = useState<FontType>({
+    regular: 'Poppins',
+    bold: 'Poppins-Bold',
+  });
 
   // Load theme and font from storage
   useEffect(() => {
@@ -34,7 +39,7 @@ export const ThemeProvider = ({children}: ThemeProviderProps) => {
         const storedFont = await AsyncStorage.getItem('font');
 
         if (storedTheme !== null) setIsDarkMode(storedTheme === 'dark');
-        if (storedFont !== null) setFont(storedFont);
+        if (storedFont !== null) setFont(JSON.parse(storedFont)); // Deserialize font
       } catch (error) {
         console.error('Failed to load theme or font:', error);
       }
@@ -52,10 +57,10 @@ export const ThemeProvider = ({children}: ThemeProviderProps) => {
     }
   };
 
-  const changeFont = async (newFont: string) => {
+  const changeFont = async (newFont: FontType) => {
     try {
       setFont(newFont);
-      await AsyncStorage.setItem('font', newFont);
+      await AsyncStorage.setItem('font', JSON.stringify(newFont)); // Serialize font
     } catch (error) {
       console.error('Failed to save font:', error);
     }
