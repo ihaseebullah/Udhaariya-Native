@@ -67,9 +67,9 @@ const Home: React.FC = () => {
               <Text style={{fontSize: 16}}>Bhai Udhaariya dekh lega</Text>
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text style={{fontSize: 36}}>
+              <Strong style={{fontSize: 28}}>
                 {showBalance ? '43,421 Rs' : '******'}
-              </Text>
+              </Strong>
               <TouchableOpacity
                 style={{padding: 10}}
                 onPress={e => {
