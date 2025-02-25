@@ -28,4 +28,20 @@ export const Strong: React.FC<CustomTextProps> = ({
     </NativeText>
   );
 };
+export const Inter: React.FC<CustomTextProps> = ({
+  children,
+  style,
+  ...props
+}) => {
+  const {font} = useTheme();
+  console.log('Font being used:', font.bold);
+
+  return (
+    <NativeText
+      style={[{fontFamily: font.inter, fontWeight: 'bold'}, style]}
+      {...props}>
+      {children}
+    </NativeText>
+  );
+};
 export default Text;
