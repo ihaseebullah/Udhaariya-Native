@@ -9,7 +9,8 @@ import {RootStackNavigationProp} from '../../../navigationTypes';
 import {Button, ButtonOutline} from '../../components/shared/Buttons';
 const OnboardingThree: React.FC = () => {
   const {Colors} = useTheme();
-  const navigation = useNavigation<RootStackNavigationProp<'OnboardingOne'>>();
+  const navigation =
+    useNavigation<RootStackNavigationProp<'OnboardingStack'>>();
 
   return (
     <View style={[styles.container, {backgroundColor: Colors.Primary}]}>
@@ -31,13 +32,13 @@ const OnboardingThree: React.FC = () => {
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <ButtonOutline
             onPress={() => {
-              navigation.navigate('Auth', {destination: 'Login'});
+              navigation.navigate('AuthStack', {destination: 'Login'});
             }}
             title={'Login'}
           />
           <Button
             onPress={() => {
-              navigation.navigate('Auth', {destination: 'Register'});
+              navigation.navigate('AuthStack', {destination: 'Register'});
             }}
             title={'Register'}
           />

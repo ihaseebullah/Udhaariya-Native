@@ -228,7 +228,7 @@ const Create: React.FC = () => {
                         ? Colors.Error
                         : Colors.CardBorder,
                       color: Colors.TextPrimary,
-                      fontFamily: font,
+                      fontFamily: font.regular,
                     },
                   ]}
                   placeholder="First Name"
@@ -249,7 +249,7 @@ const Create: React.FC = () => {
                         ? Colors.Error
                         : Colors.CardBorder,
                       color: Colors.TextPrimary,
-                      fontFamily: font,
+                      fontFamily: font.regular,
                     },
                   ]}
                   placeholder="Last Name"
@@ -271,7 +271,7 @@ const Create: React.FC = () => {
                       ? Colors.Error
                       : Colors.CardBorder,
                     color: Colors.TextPrimary,
-                    fontFamily: font,
+                    fontFamily: font.regular,
                   },
                 ]}
                 placeholder="username"
@@ -328,7 +328,7 @@ const Create: React.FC = () => {
                       ? Colors.Error
                       : Colors.CardBorder,
                     color: Colors.TextPrimary,
-                    fontFamily: font,
+                    fontFamily: font.regular,
                     fontSize: 14,
                     width: '70%',
                     marginRight: 10,
@@ -346,7 +346,7 @@ const Create: React.FC = () => {
                   {
                     borderColor: errors.pin ? Colors.Error : Colors.CardBorder,
                     color: Colors.TextPrimary,
-                    fontFamily: font,
+                    fontFamily: font.regular,
                     flex: 1,
                   },
                 ]}
@@ -392,7 +392,7 @@ const Create: React.FC = () => {
                 {
                   borderColor: errors.pin ? Colors.Error : Colors.CardBorder,
                   color: Colors.TextPrimary,
-                  fontFamily: font,
+                  fontFamily: font.regular,
                 },
               ]}
               placeholder="Enter 4-digit PIN"

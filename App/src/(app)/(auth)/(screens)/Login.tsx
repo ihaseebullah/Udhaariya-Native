@@ -75,7 +75,7 @@ const Login: React.FC = () => {
                 color: Colors.TextPrimary,
                 backgroundColor: Colors.CardBackground,
                 borderRadius: 26,
-                fontFamily: font,
+                fontFamily: font.regular,
                 flex: 1,
                 marginRight: 5,
               },

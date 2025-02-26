@@ -8,7 +8,8 @@ import {useNavigation} from '@react-navigation/native';
 import {RootStackNavigationProp} from '../../../navigationTypes';
 const OnboardingTwo: React.FC = () => {
   const {Colors} = useTheme();
-  const navigation = useNavigation<RootStackNavigationProp<'OnboardingTwo'>>();
+  const navigation =
+    useNavigation<RootStackNavigationProp<'OnboardingStack'>>();
   return (
     <View style={[styles.container, {backgroundColor: Colors.Primary}]}>
       <View style={styles.svgContainer}>
