@@ -72,7 +72,7 @@ const ProfileScreen: React.FC = () => {
           setLoading(false);
           console.log(response.data);
           setUser(response.data.user);
-          navigation.navigate('Main');
+          navigation.navigate('MainStackAuth');
         }
       } catch (err: unknown) {
         if (err instanceof AxiosError) {
@@ -132,13 +132,16 @@ const ProfileScreen: React.FC = () => {
           style={[styles.profileImage, {borderColor: Colors.CardBorder}]}
         />
         <Text
-          style={[styles.name, {color: Colors.TextPrimary, fontFamily: font}]}>
+          style={[
+            styles.name,
+            {color: Colors.TextPrimary, fontFamily: font.regular},
+          ]}>
           {userData?.fullName}
         </Text>
         <Text
           style={[
             styles.email,
-            {color: Colors.TextSecondary, fontFamily: font},
+            {color: Colors.TextSecondary, fontFamily: font.regular},
           ]}>
           {userData?.email}
         </Text>
@@ -156,7 +159,7 @@ const ProfileScreen: React.FC = () => {
               color: Colors.TextPrimary,
               backgroundColor: Colors.CardBackground,
               borderRadius: 26,
-              fontFamily: font,
+              fontFamily: font.regular,
             },
           ]}
           keyboardType="numeric"
