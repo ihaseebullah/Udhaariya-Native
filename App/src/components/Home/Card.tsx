@@ -16,7 +16,9 @@ import Text, {Strong} from '../shared/Text';
 import {useTheme} from '../../Theme/Context/Theme';
 import {useUser} from '../../context/UserContext';
 import FadeScaleText from './AnimatedText';
-
+import {Frown, Smile} from 'lucide-react-native';
+import Label from '../shared/UI/Label';
+import Trust from '../shared/UI/Label';
 const AnimatedCard: React.FC = () => {
   const {Colors} = useTheme();
   const {user} = useUser();
@@ -102,28 +104,41 @@ const AnimatedCard: React.FC = () => {
               backAnimatedStyle,
             ]}>
             <View style={{flex: 1}}>
-              <View
-                style={{
-                  backgroundColor: Colors.CardBackground,
-                  padding: 10,
-                  borderRadius: 18,
-                }}>
-                <View style={[styles.row]}>
-                  <Text style={{fontSize: 18}}>Amount You Owe</Text>
-                  <Strong style={{fontSize: 18, color: Colors.Error}}>
-                    1,400 Rs
-                  </Strong>
-                </View>
-                <View style={[styles.row]}>
-                  <Text style={{fontSize: 18}}>Amount Your Friends</Text>
+              <View style={{}}>
+                <Trust rate={4} />
+                <View
+                  style={[
+                    styles.row,
+                    {
+                      backgroundColor: Colors.Primary,
+                      padding: 10,
+                      borderRadius: 18,
+                      marginBottom: 10,
+                    },
+                  ]}>
+                  <View style={styles.field}>
+                    <Text>Lain</Text>
+                  </View>
                   <Strong style={{fontSize: 18, color: Colors.Success}}>
                     1,400 Rs
                   </Strong>
                 </View>
+                <View
+                  style={[
+                    styles.row,
+                    {
+                      backgroundColor: Colors.Primary,
+                      padding: 10,
+                      borderRadius: 18,
+                      marginBottom: 10,
+                    },
+                  ]}>
+                  <Text>Dain</Text>
+                  <Strong style={{fontSize: 18, color: Colors.Error}}>
+                    1,400 Rs
+                  </Strong>
+                </View>
               </View>
-              <TouchableOpacity>
-                <Text style={{color: Colors.TextPrimary}}>View Details</Text>
-              </TouchableOpacity>
             </View>
           </Animated.View>
         </View>
@@ -136,14 +151,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     margin: 20,
+    marginTop: -10,
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
+  field: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
   flipContainer: {
-    width: 350,
+    width: 340,
     height: 200,
     position: 'relative',
-    marginTop: 20,
   },
   card: {
     width: '100%',
