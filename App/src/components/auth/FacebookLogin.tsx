@@ -21,7 +21,7 @@ const FacebookLogin: React.FC<FacebookLoginProps> = ({onSuccess}) => {
   async function onFacebookButtonPress() {
     try {
       setLoading(true);
-      setRemarks('Signup you up');
+      setRemarks('Signing you up');
       // Attempt login with permissions
       const result = await LoginManager.logInWithPermissions([
         'public_profile',

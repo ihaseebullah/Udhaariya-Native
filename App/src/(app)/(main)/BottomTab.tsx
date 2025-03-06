@@ -12,7 +12,7 @@ import Animated, {
 const Tab = createBottomTabNavigator();
 
 export default function BottomTab() {
-  const {Colors} = useTheme(); // Access theme colors
+  const {Colors} = useTheme();
 
   return (
     <Tab.Navigator
@@ -22,15 +22,15 @@ export default function BottomTab() {
           position: 'absolute',
           left: 10,
           right: 10,
-          backgroundColor: Colors.CardBackground, // Ensure a proper background
+          backgroundColor: Colors.CardBackground,
           paddingHorizontal: 20,
           shadowColor: '#000',
           shadowOffset: {width: 0, height: 5},
           shadowOpacity: 0.1,
           shadowRadius: 5,
-          elevation: 5, // For Android shadow
+          elevation: 5, 
         },
-        tabBarShowLabel: false, // Hides labels globally
+        tabBarShowLabel: false, 
       }}>
       <Tab.Screen
         name="Home"
@@ -96,8 +96,8 @@ export default function BottomTab() {
           },
           tabBarBadge: 5,
           tabBarBadgeStyle: {
-            backgroundColor: Colors.Error, // Badge background color
-            color: Colors.Secondary, // Badge text color
+            backgroundColor: Colors.Error, 
+            color: Colors.Secondary, 
             fontSize: 10,
             minWidth: 18,
             height: 18,

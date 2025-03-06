@@ -35,7 +35,7 @@ const GoogleLogin: React.FC<GoogleLoginProps> = ({onSuccess}) => {
   const signInWithGoogle = async () => {
     try {
       setLoading(true);
-      setRemarks('Signup You Up...');
+      setRemarks('Signing you up...');
 
       await GoogleSignin.hasPlayServices();
       const returnedUser = (await GoogleSignin.signIn()).data?.user;
