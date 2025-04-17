@@ -6,7 +6,6 @@ UDHAARIYA is a React Native app designed to simplify and add humor to the proces
 ---
 
 ## Features
-
 - **oAuth via Google, Facebook**: Allow users to sign up and log in using their social media accounts.
 - **Fetch Potential Users**: Fetch contacts from the user's phone and allow them to add friends on the go.
 - **Create Teams**: Form groups of 4-10 friends to manage shared expenses.
